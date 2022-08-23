@@ -10,9 +10,13 @@ public interface UsuarioService {
 
     Usuario login(Long dni, String clave) throws Exception;
 
+    List<Usuario> findAlumnoByNombre(String nombre);
+
     List<Usuario> findAlumnos();
 
     Usuario guardarAlumno(Usuario usuario) throws Exception;
+
+    List<Usuario> findAdministrativoByNombre(String nombre);
 
     List<Usuario> findAdministrativos();
 

@@ -13,8 +13,7 @@ public interface UsuarioDao extends JpaRepository<Usuario, Long> {
             " AND u.clave = :clave")
     Usuario loginUser(Long dni, String clave);
 
-    @Query("from Usuario u where u.rol.idRol = :idRol")
-    List<Usuario> findUsuariosByRol(Number idRol);
+    List<Usuario> findUsuarioByRolAndNombreContainingIgnoreCase(Rol rol, String nombre);
 
     List<Usuario> findUsuariosByRol(Rol rol);
 

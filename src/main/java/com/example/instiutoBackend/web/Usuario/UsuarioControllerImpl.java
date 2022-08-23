@@ -26,6 +26,13 @@ public class UsuarioControllerImpl implements UsuarioController{
     }
 
     @Override
+    @GetMapping("/alumnos/findByNombre/{nombre}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Usuario> findALumnoByNombre(@PathVariable("nombre") String nombre) {
+        return usuarioService.findAlumnoByNombre(nombre);
+    }
+
+    @Override
     @PostMapping("alumnos/guardar")
     @ResponseStatus(HttpStatus.OK)
     public Usuario guardarAlumno(@RequestBody  Usuario usuario, BindingResult result) throws Exception {
@@ -40,6 +47,13 @@ public class UsuarioControllerImpl implements UsuarioController{
     @ResponseStatus(HttpStatus.OK)
     public List<Usuario> findAdministrativos() {
         return usuarioService.findAdministrativos();
+    }
+
+    @Override
+    @GetMapping("/administrativos/findByNombre/{nombre}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Usuario> findAdministrativoByNombre(@PathVariable("nombre") String nombre) {
+        return usuarioService.findAdministrativoByNombre(nombre);
     }
 
     @Override

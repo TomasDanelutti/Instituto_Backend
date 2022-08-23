@@ -30,10 +30,14 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
+    public List<Usuario> findAlumnoByNombre(String nombre) {
+        Rol rol = rolDao.findRolByIdRol(0L);
+        return usuarioDao.findUsuarioByRolAndNombreContainingIgnoreCase(rol, nombre);
+    }
+
+    @Override
     public List<Usuario> findAlumnos() {;
         Rol rol = rolDao.findRolByIdRol(0L);
-        System.out.println(rol);
-        System.out.println(usuarioDao.findUsuariosByRol(rol));
         return usuarioDao.findUsuariosByRol(rol);
 
     }
@@ -43,6 +47,12 @@ public class UsuarioServiceImpl implements UsuarioService {
         Rol rol = rolDao.findRolByIdRol(0L);
         usuario.setRol(rol);
         return usuarioDao.save(usuario);
+    }
+
+    @Override
+    public List<Usuario> findAdministrativoByNombre(String nombre) {
+        Rol rol = rolDao.findRolByIdRol(1L);
+        return usuarioDao.findUsuarioByRolAndNombreContainingIgnoreCase(rol, nombre);
     }
 
     @Override
