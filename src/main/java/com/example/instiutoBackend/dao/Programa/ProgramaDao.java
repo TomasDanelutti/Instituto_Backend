@@ -7,8 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface ProgramaDao extends JpaRepository<Programa, Long> {
-    List<Programa> findProgramasByEstado(Estado estado);
-
+    List<Programa> findProgramaByNombreContainingIgnoreCase(String nombre);
 
     Programa findProgramaByIdPrograma(Long idPrograma);
 }

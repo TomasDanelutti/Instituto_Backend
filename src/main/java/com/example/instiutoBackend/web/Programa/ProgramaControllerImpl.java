@@ -24,6 +24,13 @@ public class ProgramaControllerImpl implements ProgramaController{
     }
 
     @Override
+    @GetMapping("/findByNombre/{nombre}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Programa> findByNombre(@PathVariable("nombre") String nombre) {
+        return programaService.findByNombre(nombre);
+    }
+
+    @Override
     @PostMapping("guardar")
     @ResponseStatus(HttpStatus.CREATED)
     public Programa guardarPrograma(@RequestBody @Validated Programa programa, BindingResult result) throws Exception {

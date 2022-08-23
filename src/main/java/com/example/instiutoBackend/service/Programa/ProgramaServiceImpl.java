@@ -18,8 +18,12 @@ public class ProgramaServiceImpl implements ProgramaService{
 
     @Override
     public List<Programa> findAll() {
-        Estado estado = Estado.valueOf("ACTIVO");
-        return programaDao.findProgramasByEstado(estado);
+        return programaDao.findAll();
+    }
+
+    @Override
+    public List<Programa> findByNombre(String nombre) {
+        return programaDao.findProgramaByNombreContainingIgnoreCase(nombre);
     }
 
     @Override
@@ -30,8 +34,8 @@ public class ProgramaServiceImpl implements ProgramaService{
 
     @Override
     public Programa elimnarPrograma(Programa programa) throws Exception {
-        programa.setEstado(Estado.valueOf("INACTIVO"));
-        return programaDao.save(programa);
+        programaDao.delete(programa);
+        return null;
     }
 
 }
