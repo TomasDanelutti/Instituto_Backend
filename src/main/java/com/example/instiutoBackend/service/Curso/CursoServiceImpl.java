@@ -34,6 +34,11 @@ public class CursoServiceImpl implements CursoService{
         return cursoDao.save(curso);
     }
 
+    @Override
+    public List<Curso> findCursoByNombre(String nombre) {
+        return cursoDao.findCursosByNombreContainingIgnoreCase(nombre);
+    }
+
     public List<Curso> findCursoInscriptosByUsuario(Long idUsuario) {
         List<Curso> cursos = cursoDao.findCursoInscriptosByUsuario(idUsuario);
             return cursoDao.findCursoInscriptosByUsuario(idUsuario);

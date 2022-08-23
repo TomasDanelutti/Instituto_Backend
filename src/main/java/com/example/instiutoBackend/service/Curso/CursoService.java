@@ -13,6 +13,8 @@ public interface CursoService {
 
     Curso eliminarCurso(Curso curso) throws Exception;
 
+    List<Curso> findCursoByNombre(String nombre);
+
     List<Curso> findCursoInscriptosByUsuario(Long idUsuario);
 
     List<Curso> findCursoNoInscriptosByUsuario(Long idUsuario);

@@ -40,8 +40,14 @@ public class CursoControllerImpl implements CursoController{
     }
 
     @Override
-    @GetMapping("/findNoInscriptos/{idUsuario}")
+    @GetMapping("/findByNombre/{nombre}")
     @ResponseStatus(HttpStatus.OK)
+    public List<Curso> findCursoByNombre(@PathVariable("nombre") String nombre) {
+        return cursoService.findCursoByNombre(nombre);
+    }
+
+    @Override
+    @GetMapping("/findNoInscriptos/{idUsuario}")
     public List<Curso> findCursoNoInscriptosByUsuario(@PathVariable("idUsuario") Long idUsuario) {
         return cursoService.findCursoNoInscriptosByUsuario(idUsuario);
     }

@@ -17,6 +17,8 @@ public interface CursoController {
 
     Curso eliminarCurso(@RequestBody Curso curso, BindingResult result) throws Exception;
 
+    List<Curso> findCursoByNombre(String nombre);
+
     List<Curso> findCursoNoInscriptosByUsuario(Long idUsuario);
 
     List<Curso> findCursoInscriptosByUsuario(Long idUsuario);
