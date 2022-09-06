@@ -7,14 +7,16 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "examen")
+@Table(name = "trabajos")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Examen {
+public class Trabajo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idExamen;
+
+    private String tipo;
 
     private Long nota;
 }
