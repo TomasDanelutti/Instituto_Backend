@@ -39,4 +39,6 @@ public class Usuario {
     @ManyToOne
     @JoinColumn(name = "idRol")
     private Rol rol;
+
+    private String imagen;
 }

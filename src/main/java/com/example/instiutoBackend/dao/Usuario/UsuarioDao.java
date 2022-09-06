@@ -15,6 +15,7 @@ public interface UsuarioDao extends JpaRepository<Usuario, Long> {
 
     List<Usuario> findUsuarioByRolAndNombreContainingIgnoreCase(Rol rol, String nombre);
 
+
     List<Usuario> findUsuariosByRol(Rol rol);
 
 
