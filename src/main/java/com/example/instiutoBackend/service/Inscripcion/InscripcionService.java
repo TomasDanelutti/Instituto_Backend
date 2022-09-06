@@ -9,4 +9,6 @@ import java.util.List;
 public interface InscripcionService {
 
     Inscripcion inscribirse(Inscripcion inscripcion) throws Exception;
+
+    List<Usuario> findAlumnosByCurso(Long idCurso);
 }

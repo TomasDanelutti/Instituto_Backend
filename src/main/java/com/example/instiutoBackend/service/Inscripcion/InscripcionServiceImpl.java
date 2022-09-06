@@ -22,4 +22,9 @@ public class InscripcionServiceImpl implements InscripcionService {
     public Inscripcion inscribirse(Inscripcion inscripcion) throws Exception {
         return inscripcionDao.save(inscripcion);
     }
+
+    @Override
+    public List<Usuario> findAlumnosByCurso(Long idCurso) {
+        return inscripcionDao.findAlumnosByCurso(idCurso);
+    }
 }

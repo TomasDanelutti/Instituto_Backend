@@ -2,6 +2,7 @@ package com.example.instiutoBackend.web.Inscripcion;
 
 import com.example.instiutoBackend.model.Curso;
 import com.example.instiutoBackend.model.Inscripcion;
+import com.example.instiutoBackend.model.Usuario;
 import com.example.instiutoBackend.service.Inscripcion.InscripcionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -26,6 +27,13 @@ public class InscripcionControllerImpl implements InscripcionController {
             throw new Exception("Datos incompletos");
         }
         return inscripcionService.inscribirse(inscripcion);
+    }
+
+    @Override
+    @GetMapping("/alumnos/{idCurso}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Usuario> findAlumnosByCurso(@PathVariable("idCurso") Long idCurso) {
+        return inscripcionService.findAlumnosByCurso(idCurso);
     }
 
 

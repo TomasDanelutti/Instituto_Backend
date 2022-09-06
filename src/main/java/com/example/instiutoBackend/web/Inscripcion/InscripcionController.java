@@ -10,4 +10,6 @@ import java.util.List;
 public interface InscripcionController {
 
     Inscripcion inscribirse(Inscripcion inscripcion, BindingResult result) throws Exception;
+
+    List<Usuario> findAlumnosByCurso(Long idCurso);
 }
