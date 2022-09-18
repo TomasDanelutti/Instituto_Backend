@@ -17,10 +17,20 @@ public class ProgramaControllerImpl implements ProgramaController{
 
     private final ProgramaService programaService;
 
+
     @Override
-    @GetMapping()
-    public List<Programa> findAll() {
-        return programaService.findAll();
+    @GetMapping("/findBy/{pageNo}/{pageSize}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Programa> findProgramasPaginado(@PathVariable("pageNo") Integer pageNo,
+                                                @PathVariable("pageSize") Integer pageSize) {
+        return programaService.findProgramasPaginado(pageNo, pageSize);
+    }
+
+    @Override
+    @GetMapping("/count")
+    @ResponseStatus(HttpStatus.OK)
+    public Long count() {
+        return programaService.count();
     }
 
     @Override
@@ -41,9 +51,9 @@ public class ProgramaControllerImpl implements ProgramaController{
     }
 
     @Override
-    @PostMapping("eliminar")
-    @ResponseStatus(HttpStatus.CREATED)
-    public Programa eliminarPrograma(@RequestBody Programa programa, BindingResult result) throws Exception {
-        return programaService.elimnarPrograma(programa);
+    @DeleteMapping("/{idPrograma}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void eliminarPrograma(@PathVariable Long idPrograma) throws Exception {
+        programaService.elimnarPrograma(idPrograma);
     }
 }

@@ -2,6 +2,8 @@ package com.example.instiutoBackend.dao.Curso;
 
 import com.example.instiutoBackend.model.Curso;
 import com.example.instiutoBackend.model.Estado;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -9,11 +11,13 @@ import java.util.List;
 
 public interface CursoDao extends JpaRepository<Curso, Long> {
 
-    List<Curso> findAll();
+    Page<Curso> findAllBy(Pageable page);
 
-    Curso findCursoByIdCurso(Long idCurso);
+    Long countCursosBy();
 
     List<Curso> findCursosByEstado(Estado estado);
+    
+    Curso findCursoByIdCurso(Long idCurso);
 
     List<Curso> findCursosByNombreContainingIgnoreCase(String nombre);
 

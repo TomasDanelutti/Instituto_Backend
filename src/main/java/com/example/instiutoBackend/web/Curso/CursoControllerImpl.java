@@ -17,9 +17,18 @@ public class CursoControllerImpl implements CursoController{
     private final CursoService cursoService;
 
     @Override
-    @GetMapping()
-    public List<Curso> findAll() {
-        return cursoService.findAll();
+    @GetMapping("/findBy/{pageNo}/{pageSize}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Curso> findCursosPaginados(@PathVariable("pageNo") Integer pageNo,
+                                           @PathVariable("pageSize") Integer pageSize) {
+        return cursoService.findCursosPaginados(pageNo, pageSize);
+    }
+
+    @Override
+    @GetMapping("/count")
+    @ResponseStatus(HttpStatus.OK)
+    public Long count() {
+        return cursoService.count();
     }
 
     @Override
@@ -33,10 +42,10 @@ public class CursoControllerImpl implements CursoController{
     }
 
     @Override
-    @PostMapping("eliminar")
-    @ResponseStatus(HttpStatus.CREATED)
-    public Curso eliminarCurso(@RequestBody Curso curso, BindingResult result) throws Exception {
-        return cursoService.eliminarCurso(curso);
+    @DeleteMapping("/{idCurso}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void eliminarCurso(@PathVariable Long idCurso) throws Exception {
+        cursoService.eliminarCurso(idCurso);
     }
 
     @Override

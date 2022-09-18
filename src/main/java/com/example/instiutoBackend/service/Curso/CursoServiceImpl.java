@@ -4,6 +4,10 @@ import com.example.instiutoBackend.dao.Curso.CursoDao;
 import com.example.instiutoBackend.model.Curso;
 import com.example.instiutoBackend.model.Estado;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,9 +21,15 @@ public class CursoServiceImpl implements CursoService{
     private final CursoDao cursoDao;
 
     @Override
-    public List<Curso> findAll() {
-        Estado estado = Estado.valueOf("ACTIVO");
-        return cursoDao.findCursosByEstado(estado);
+    public List<Curso> findCursosPaginados(Integer pageNo, Integer pageSize) {
+        Pageable pagina = PageRequest.of(pageNo, pageSize);
+        Page<Curso> cursos = cursoDao.findAllBy(pagina);
+        return cursos.getContent();
+    }
+
+    @Override
+    public Long count() {
+        return cursoDao.countCursosBy();
     }
 
     @Override
@@ -29,9 +39,10 @@ public class CursoServiceImpl implements CursoService{
     }
 
     @Override
-    public Curso eliminarCurso(Curso curso) throws Exception {
-        curso.setEstado(Estado.valueOf("INACTIVO"));
-        return cursoDao.save(curso);
+    public void eliminarCurso(Long idCurso) throws Exception {
+        Curso curso = cursoDao.findCursoByIdCurso(idCurso);
+//        curso.setEstado(Estado.valueOf("INACTIVO"));
+        cursoDao.delete(curso);
     }
 
     @Override
