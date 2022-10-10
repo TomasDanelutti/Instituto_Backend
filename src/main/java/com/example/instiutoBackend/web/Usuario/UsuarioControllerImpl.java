@@ -16,53 +16,5 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UsuarioControllerImpl implements UsuarioController{
 
-    private final UsuarioService usuarioService;
 
-    @Override
-    @GetMapping("/alumnos")
-    @ResponseStatus(HttpStatus.OK)
-    public List<Usuario> findAlumnos() {
-        return usuarioService.findAlumnos();
-    }
-
-    @Override
-    @GetMapping("/alumnos/findByNombre/{nombre}")
-    @ResponseStatus(HttpStatus.OK)
-    public List<Usuario> findALumnoByNombre(@PathVariable("nombre") String nombre) {
-        return usuarioService.findAlumnoByNombre(nombre);
-    }
-
-    @Override
-    @PostMapping("alumnos/guardar")
-    @ResponseStatus(HttpStatus.OK)
-    public Usuario guardarAlumno(@RequestBody  Usuario usuario, BindingResult result) throws Exception {
-        if (result.hasErrors()) {
-            throw new Exception("Datos incompletos");
-        }
-        return usuarioService.guardarAlumno(usuario);
-    }
-
-    @Override
-    @GetMapping("/administrativos")
-    @ResponseStatus(HttpStatus.OK)
-    public List<Usuario> findAdministrativos() {
-        return usuarioService.findAdministrativos();
-    }
-
-    @Override
-    @GetMapping("/administrativos/findByNombre/{nombre}")
-    @ResponseStatus(HttpStatus.OK)
-    public List<Usuario> findAdministrativoByNombre(@PathVariable("nombre") String nombre) {
-        return usuarioService.findAdministrativoByNombre(nombre);
-    }
-
-    @Override
-    @PostMapping("administrativos/guardar")
-    @ResponseStatus(HttpStatus.OK)
-    public Usuario guardarAdministrativo(@RequestBody Usuario usuario, BindingResult result) throws Exception {
-        if (result.hasErrors()) {
-            throw new Exception("Datos incompletos");
-        }
-        return usuarioService.guardarAdministrativo(usuario);
-    }
 }

@@ -4,14 +4,13 @@ import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 
 import javax.persistence.*;
-import java.io.File;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
-@Table(name = "curso")
+@Table(name = "cursos")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -25,7 +24,7 @@ public class Curso {
     @NotNull
     @ManyToOne
     @JoinColumn(name = "idPrograma")
-    private Programa programa;
+    private Archivo programa;
 
     private String turno;
 
@@ -39,6 +38,12 @@ public class Curso {
 
     private Estado estado;
 
-    private String imagen;
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "idImagen")
+    private Archivo imagen;
 
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "idTrabajo")
+    private List<Trabajo> trabajos;
 }

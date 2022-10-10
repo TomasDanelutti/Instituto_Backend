@@ -12,7 +12,7 @@ public interface InscripcionDao extends JpaRepository<Inscripcion, Long> {
 
     //@Query("from Inscripcion ins where ins.usuario = :idUsuario")
 
-    @Query("from Usuario u inner join Inscripcion i on i.usuario.idUsuario = u.idUsuario where i.curso.idCurso = :idCurso")
+    @Query("from Usuario u inner join Inscripcion i on i.alumno.idUsuario = u.idUsuario where i.curso.idCurso = :idCurso")
     List<Usuario> findAlumnosByCurso(Long idCurso);
 
 }

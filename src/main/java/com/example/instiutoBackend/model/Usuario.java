@@ -4,16 +4,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 @Table(name = "usuario")
+@Inheritance(strategy = InheritanceType.JOINED)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -41,7 +38,11 @@ public class Usuario {
 
     private Estado estado;
 
-    private String imagen;
+    private Date fechaNacimiento;
+
+    @ManyToOne
+    @JoinColumn(name = "idImagen")
+    private Archivo imagen;
 
     @ManyToOne
     @JoinColumn(name = "idRol")

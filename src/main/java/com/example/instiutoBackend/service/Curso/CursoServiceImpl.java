@@ -1,13 +1,13 @@
 package com.example.instiutoBackend.service.Curso;
 
 import com.example.instiutoBackend.dao.Curso.CursoDao;
+import com.example.instiutoBackend.dao.Imagen.ImagenDao;
 import com.example.instiutoBackend.model.Curso;
 import com.example.instiutoBackend.model.Estado;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +19,8 @@ import java.util.List;
 public class CursoServiceImpl implements CursoService{
 
     private final CursoDao cursoDao;
+
+    private final ImagenDao imagenDao;
 
     @Override
     public List<Curso> findCursosPaginados(Integer pageNo, Integer pageSize) {
@@ -34,7 +36,8 @@ public class CursoServiceImpl implements CursoService{
 
     @Override
     public Curso guardarCurso(Curso curso) throws Exception {
-       curso.setEstado(Estado.valueOf("ACTIVO"));
+        imagenDao.save(curso.getImagen());
+        curso.setEstado(Estado.valueOf("ACTIVO"));
         return cursoDao.save(curso);
     }
 

@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "inscripcion")
+@Table(name = "inscripciones")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -20,12 +20,11 @@ public class Inscripcion {
 
     @ManyToOne
     @JoinColumn(name = "idUsuario")
-    private Usuario usuario;
+    private Alumno alumno;
 
     @ManyToOne
     @JoinColumn(name = "idCurso")
     private Curso curso;
-
 
     private Estado estado;
 

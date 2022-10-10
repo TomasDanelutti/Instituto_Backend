@@ -14,7 +14,7 @@ import javax.persistence.*;
 public class Trabajo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idExamen;
+    private Long idTrabajo;
 
     private String tipo;
 
