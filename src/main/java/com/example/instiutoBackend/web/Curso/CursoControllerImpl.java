@@ -38,7 +38,8 @@ public class CursoControllerImpl implements CursoController{
         if (result.hasErrors()) {
             throw new Exception("Datos incompletos");
         }
-        return cursoService.guardarCurso(curso);
+        cursoService.guardarCurso(curso);
+        return null;
     }
 
     @Override

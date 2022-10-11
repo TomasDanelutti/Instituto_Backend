@@ -14,4 +14,6 @@ public interface AlumnoDao extends JpaRepository<Alumno, Long> {
     Long countAlumnosBy();
 
     List<Alumno> findAlumnosByNombreIgnoreCase(String nombre);
+
+    Alumno findAlumnoByIdUsuario(Long idUsuario);
 }

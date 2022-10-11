@@ -2,6 +2,7 @@ package com.example.instiutoBackend.service.Curso;
 
 import com.example.instiutoBackend.dao.Curso.CursoDao;
 import com.example.instiutoBackend.dao.Imagen.ImagenDao;
+import com.example.instiutoBackend.model.Archivo;
 import com.example.instiutoBackend.model.Curso;
 import com.example.instiutoBackend.model.Estado;
 import lombok.RequiredArgsConstructor;
@@ -36,9 +37,18 @@ public class CursoServiceImpl implements CursoService{
 
     @Override
     public Curso guardarCurso(Curso curso) throws Exception {
-        imagenDao.save(curso.getImagen());
+        if (curso.getImagen() == null) {
+            Archivo archivo = new Archivo();
+            imagenDao.save(archivo.setFotoCursoDefault());
+            curso.setImagen(archivo.setFotoCursoDefault());
+        }
+        else {
+            imagenDao.save(curso.getImagen());
+        };
+        imagenDao.save(curso.getPrograma());
         curso.setEstado(Estado.valueOf("ACTIVO"));
-        return cursoDao.save(curso);
+        cursoDao.save(curso);
+        return null;
     }
 
     @Override

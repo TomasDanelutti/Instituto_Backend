@@ -13,4 +13,6 @@ public interface EmpleadoController {
     Empleado guardarEmpleado(Empleado empleado);
 
     List<Empleado> findEmpleadosByNombre(String nombre);
+
+    List<Empleado> findEmpleadosByPuesto(String puesto);
 }

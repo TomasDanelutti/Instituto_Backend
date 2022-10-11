@@ -22,7 +22,7 @@ public class Curso {
     private String nombre;
 
     @NotNull
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "idPrograma")
     private Archivo programa;
 
@@ -32,14 +32,23 @@ public class Curso {
 
     private Long cupoMaximo;
 
-    private LocalDate fecha;
+    private LocalDate fechaInicio;
 
-    private String profesor;
+    private LocalDate fechaFinalizacion;
+
+    private String aula;
+
+    private String modalidad;
+
+    private String horario;
+
+    @ManyToOne
+    @JoinColumn(name = "idProfesor")
+    private Empleado profesor;
 
     private Estado estado;
 
-    @NotNull
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "idImagen")
     private Archivo imagen;
 

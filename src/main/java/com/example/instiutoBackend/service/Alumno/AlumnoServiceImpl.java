@@ -3,6 +3,7 @@ package com.example.instiutoBackend.service.Alumno;
 import com.example.instiutoBackend.dao.Alumno.AlumnoDao;
 import com.example.instiutoBackend.dao.Imagen.ImagenDao;
 import com.example.instiutoBackend.model.Alumno;
+import com.example.instiutoBackend.model.Archivo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -34,8 +35,16 @@ public class AlumnoServiceImpl implements AlumnoService {
 
     @Override
     public Alumno guardarAlumno(Alumno alumno) {
-        imagenDao.save(alumno.getImagen());
-        return alumnoDao.save(alumno);
+        if (alumno.getImagen() == null) {
+            Archivo archivo = new Archivo();
+            imagenDao.save(archivo.setFotoUsuarioDefault());
+            alumno.setImagen(archivo.setFotoUsuarioDefault());
+        }
+        else {
+            imagenDao.save(alumno.getImagen());
+        };
+        alumnoDao.save(alumno);
+        return null;
     }
 
     @Override

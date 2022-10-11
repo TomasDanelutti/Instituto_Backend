@@ -2,6 +2,7 @@ package com.example.instiutoBackend.web.Inscripcion;
 
 import com.example.instiutoBackend.model.Curso;
 import com.example.instiutoBackend.model.Inscripcion;
+import com.example.instiutoBackend.model.InscripcionDTO;
 import com.example.instiutoBackend.model.Usuario;
 import com.example.instiutoBackend.service.Inscripcion.InscripcionService;
 import lombok.RequiredArgsConstructor;
@@ -22,11 +23,11 @@ public class InscripcionControllerImpl implements InscripcionController {
     @Override
     @PostMapping("/insc")
     @ResponseStatus(HttpStatus.OK)
-    public Inscripcion inscribirse(@RequestBody Inscripcion inscripcion, BindingResult result) throws Exception {
+    public Inscripcion inscribirse(@RequestBody InscripcionDTO inscripcionDTO, BindingResult result) throws Exception {
         if (result.hasErrors()) {
             throw new Exception("Datos incompletos");
         }
-        return inscripcionService.inscribirse(inscripcion);
+        return inscripcionService.inscribirse(inscripcionDTO);
     }
 
     @Override

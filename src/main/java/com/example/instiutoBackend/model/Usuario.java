@@ -40,12 +40,11 @@ public class Usuario {
 
     private Date fechaNacimiento;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "idImagen")
     private Archivo imagen;
 
     @ManyToOne
     @JoinColumn(name = "idRol")
     private Rol rol;
-
 }

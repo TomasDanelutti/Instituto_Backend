@@ -13,34 +13,41 @@ import java.util.List;
 @RequiredArgsConstructor
 public class EmpleadoControllerImpl implements EmpleadoController {
 
-    private final EmpleadoService administratvoService;
+    private final EmpleadoService empleadoService;
 
     @Override
     @GetMapping("/findBy/{pageNo}/{pageSize}")
     @ResponseStatus(HttpStatus.OK)
     public List<Empleado> findEmpleadosPaginados(@PathVariable("pageNo") Integer pageNo,
                                                       @PathVariable("pageSize") Integer pageSize) {
-        return administratvoService.findEmpleadosPaginados(pageNo, pageSize);
+        return empleadoService.findEmpleadosPaginados(pageNo, pageSize);
     }
 
     @Override
     @GetMapping("/count")
     @ResponseStatus(HttpStatus.OK)
     public Long contarEmpleados() {
-        return administratvoService.contarEmpleados();
+        return empleadoService.contarEmpleados();
     }
 
     @Override
     @PostMapping("guardar")
     @ResponseStatus(HttpStatus.CREATED)
     public Empleado guardarEmpleado(@RequestBody Empleado empleado) {
-        return administratvoService.guardarEmpleado(empleado);
+        return empleadoService.guardarEmpleado(empleado);
     }
 
     @Override
     @GetMapping("/findByNombre/{nombre}")
     @ResponseStatus(HttpStatus.OK)
     public List<Empleado> findEmpleadosByNombre(@PathVariable("nombre") String nombre) {
-        return administratvoService.findEmpleadosByNombre(nombre);
+        return empleadoService.findEmpleadosByNombre(nombre);
+    }
+
+    @Override
+    @GetMapping("/findByPuesto/{puesto}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Empleado> findEmpleadosByPuesto(@PathVariable("puesto") String puesto) {
+        return empleadoService.findEmpleadosByPuesto(puesto);
     }
 }
