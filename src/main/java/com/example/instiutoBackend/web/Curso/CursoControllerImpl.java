@@ -59,13 +59,20 @@ public class CursoControllerImpl implements CursoController{
     @Override
     @GetMapping("/findNoInscriptos/{idUsuario}")
     public List<Curso> findCursoNoInscriptosByUsuario(@PathVariable("idUsuario") Long idUsuario) {
-        return cursoService.findCursoNoInscriptosByUsuario(idUsuario);
+        return cursoService.findCursosNoInscriptosByUsuario(idUsuario);
     }
 
     @Override
     @GetMapping("/findInscriptos/{idUsuario}")
     @ResponseStatus(HttpStatus.OK)
     public List<Curso> findCursoInscriptosByUsuario(@PathVariable("idUsuario") Long idUsuario) {
-        return cursoService.findCursoInscriptosByUsuario(idUsuario);
+        return cursoService.findCursosInscriptosByUsuario(idUsuario);
+    }
+
+    @Override
+    @GetMapping("/findAll/{activo}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Curso> findAllByActivo(@PathVariable("activo") boolean activo) {
+        return cursoService.findAllByActivo(activo);
     }
 }

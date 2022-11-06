@@ -1,6 +1,5 @@
 package com.example.instiutoBackend.model;
 
-import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,26 +7,29 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "inscripciones")
+@Table(name = "notificacionesDesinscripcion")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Inscripcion {
+public class NotificacionDesinscripcion {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idInscripcion;
+    private Long idNotificacionDesinscripcion;
 
     @ManyToOne
-    @JoinColumn(name = "idUsuario")
+    @JoinColumn(name = "idAlumno")
     private Alumno alumno;
 
     @ManyToOne
     @JoinColumn(name = "idCurso")
     private Curso curso;
 
-    private String motivoDesunscripcion;
+    @ManyToOne
+    @JoinColumn(name = "idEmpleado")
+    private Empleado empleado;
 
-    private boolean activo;
+    private String motivo;
 
+    private boolean estado;
 }

@@ -13,7 +13,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class Empleado extends Usuario {
+public class Empleado extends Persona {
 
     private Long sueldo;
 

@@ -1,7 +1,6 @@
 package com.example.instiutoBackend.dao.Curso;
 
 import com.example.instiutoBackend.model.Curso;
-import com.example.instiutoBackend.model.Estado;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,8 +14,9 @@ public interface CursoDao extends JpaRepository<Curso, Long> {
 
     Long countCursosBy();
 
-    List<Curso> findCursosByEstado(Estado estado);
-    
+    List<Curso> findCursosByActivo(boolean activo);
+
+    @Query("from Curso c where c.idCurso = :idCurso")
     Curso findCursoByIdCurso(Long idCurso);
 
     List<Curso> findCursosByNombreContainingIgnoreCase(String nombre);
@@ -26,6 +26,8 @@ public interface CursoDao extends JpaRepository<Curso, Long> {
 
     @Query("from Curso c inner join Inscripcion i on i.curso.idCurso = c.idCurso where i.alumno.idUsuario != :idUsuario")
     List<Curso> findCursoNoInscriptosByUsuario(Long idUsuario);
+
+    List<Curso> findAllByActivo(boolean activo);
 
 }
 

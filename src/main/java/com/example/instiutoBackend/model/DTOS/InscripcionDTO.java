@@ -1,4 +1,4 @@
-package com.example.instiutoBackend.model;
+package com.example.instiutoBackend.model.DTOS;
 
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
@@ -19,5 +19,5 @@ public class InscripcionDTO {
     private Long idUsuario;
 
     @NotNull
-    private Estado estado;
+    private String motivo;
 }

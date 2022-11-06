@@ -1,5 +1,10 @@
 package com.example.instiutoBackend.model;
 
 public enum Estado {
-    ACTIVO, INACTIVO
+    OK,
+    ERROR;
+
+    private Estado() {
+    }
 }
+

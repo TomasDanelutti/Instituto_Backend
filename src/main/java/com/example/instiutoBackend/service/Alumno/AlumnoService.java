@@ -1,7 +1,6 @@
 package com.example.instiutoBackend.service.Alumno;
 
 import com.example.instiutoBackend.model.Alumno;
-import org.springframework.data.domain.Page;
 
 import java.util.List;
 

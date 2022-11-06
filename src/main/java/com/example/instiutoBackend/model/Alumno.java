@@ -14,7 +14,7 @@ import javax.persistence.Table;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class Alumno extends Usuario{
+public class Alumno extends Persona {
 
     private Long numLegajo;
 

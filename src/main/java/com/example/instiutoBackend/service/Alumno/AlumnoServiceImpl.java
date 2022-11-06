@@ -2,16 +2,20 @@ package com.example.instiutoBackend.service.Alumno;
 
 import com.example.instiutoBackend.dao.Alumno.AlumnoDao;
 import com.example.instiutoBackend.dao.Imagen.ImagenDao;
+import com.example.instiutoBackend.dao.Rol.RolDao;
 import com.example.instiutoBackend.model.Alumno;
 import com.example.instiutoBackend.model.Archivo;
+import com.example.instiutoBackend.model.Rol;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -19,6 +23,8 @@ import java.util.List;
 public class AlumnoServiceImpl implements AlumnoService {
 
     private final AlumnoDao alumnoDao;
+
+    private final RolDao rolDao;
 
     private final ImagenDao imagenDao;
     @Override
@@ -35,7 +41,7 @@ public class AlumnoServiceImpl implements AlumnoService {
 
     @Override
     public Alumno guardarAlumno(Alumno alumno) {
-        if (alumno.getImagen() == null) {
+        if (alumno.getImagen().getFoto() == null) {
             Archivo archivo = new Archivo();
             imagenDao.save(archivo.setFotoUsuarioDefault());
             alumno.setImagen(archivo.setFotoUsuarioDefault());
@@ -43,8 +49,16 @@ public class AlumnoServiceImpl implements AlumnoService {
         else {
             imagenDao.save(alumno.getImagen());
         };
+        if (alumno.getIdUsuario() == null) {
+            alumno.setUuid(UUID.randomUUID());
+        }
+        Rol rol = new Rol();
+        rol.setIdRol(0L);
+        rol.setNombre("Alumno");
+        alumno.setRol(rol);
+        alumno.setActivo(true);
         alumnoDao.save(alumno);
-        return null;
+        return alumno;
     }
 
     @Override

@@ -1,8 +1,8 @@
 package com.example.instiutoBackend.web.Login;
 
-import com.example.instiutoBackend.model.Usuario;
+import com.example.instiutoBackend.model.Persona;
 
 public interface LoginController {
 
-    Usuario findByDniAndClave(Long dni, String clave) throws Exception;
+    Persona findByDniAndClave(Long dni, String clave) throws Exception;
 }

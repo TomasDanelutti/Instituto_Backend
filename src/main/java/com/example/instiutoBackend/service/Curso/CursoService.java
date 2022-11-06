@@ -10,14 +10,16 @@ public interface CursoService {
 
     Long count();
 
-    Curso guardarCurso(Curso curso) throws Exception;
+    void guardarCurso(Curso curso) throws Exception;
 
     void eliminarCurso(Long idCurso) throws Exception;
 
 
     List<Curso> findCursoByNombre(String nombre);
 
-    List<Curso> findCursoInscriptosByUsuario(Long idUsuario);
+    List<Curso> findCursosInscriptosByUsuario(Long idUsuario);
 
-    List<Curso> findCursoNoInscriptosByUsuario(Long idUsuario);
+    List<Curso> findCursosNoInscriptosByUsuario(Long idUsuario);
+
+    List<Curso> findAllByActivo(boolean activo);
 }

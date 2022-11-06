@@ -22,7 +22,7 @@ public class Curso {
     private String nombre;
 
     @NotNull
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "idPrograma")
     private Archivo programa;
 
@@ -46,7 +46,9 @@ public class Curso {
     @JoinColumn(name = "idProfesor")
     private Empleado profesor;
 
-    private Estado estado;
+    private String estado;
+
+    private boolean activo;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "idImagen")

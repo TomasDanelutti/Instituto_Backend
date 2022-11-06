@@ -2,6 +2,7 @@ package com.example.instiutoBackend.web.Empleado;
 
 import com.example.instiutoBackend.model.Empleado;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface EmpleadoController {
@@ -10,7 +11,7 @@ public interface EmpleadoController {
 
     Long contarEmpleados();
 
-    Empleado guardarEmpleado(Empleado empleado);
+    Empleado guardarEmpleado(Empleado empleado) throws IOException;
 
     List<Empleado> findEmpleadosByNombre(String nombre);
 
