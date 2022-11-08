@@ -25,5 +25,4 @@ public class UsuarioLogin {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String clave;
 
-    private Date fechaUltAcceso;
 }

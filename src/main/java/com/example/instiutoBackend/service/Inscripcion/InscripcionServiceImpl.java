@@ -23,8 +23,12 @@ public class InscripcionServiceImpl implements InscripcionService {
 
     private final AlumnoDao alumnoDao;
 
+
     @Override
     public Respuesta inscribirse(InscripcionDTO inscripcionDTO) throws Exception {
+        Persona persona = inscripcionDao.findAlumnoByCurso(inscripcionDTO.getIdCurso(), inscripcionDTO.getIdUsuario());
+        Assert.isNull(persona, "No puedes inscribirte a este curso debido a que ya estas inscripto en el mismo. " +
+                "Si crees que es un error contactate con Bedelia. Gracias");
         Curso curso = cursoDao.findCursoByIdCurso(inscripcionDTO.getIdCurso());
         Assert.notNull(curso, "No hemos podido encontrar el curso.");
         Alumno alumno = alumnoDao.findAlumnoByIdUsuario(inscripcionDTO.getIdUsuario());

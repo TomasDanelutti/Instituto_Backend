@@ -9,5 +9,9 @@ import java.util.List;
 public interface NotificacionDesinscripcionController {
 
     List<NotificacionDesinscripcion> findSolicitudesActivas();
+
+    Long contarNotificacionesDesinscripcionActivas();
+
     Respuesta guardarSolicitudDesinscripcion(NotificacionDesinscripcionDTO notificacionesDesinscripcionDTO);
+
 }

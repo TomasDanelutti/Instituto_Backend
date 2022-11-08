@@ -16,7 +16,7 @@ public class MailServiceImpl implements MailService {
 
 	private final String serverUrl;
 	private final JavaMailSender emailSender;
-    private final String from = "Instituto Zarasa<tomasdanelutti12@gmail.com>";
+    private final String from = "Instituto T&L<tomasdanelutti12@gmail.com>";
 	private void sendMail(String to, String subject, String msg) {
 
 		try {
@@ -43,7 +43,7 @@ public class MailServiceImpl implements MailService {
 		var message = new String(Files.readAllBytes(file.toPath()));
 		message = message.replace("$Nombre", persona.getNombre()).replace("$NuevaClave", "persona.getClave()");
 
-		sendMail(persona.getEmail(), "Instituto Zarasa S.A - Nueva clave", message);
+		sendMail(persona.getEmail(), "Instituto T&L S.A - Nueva clave", message);
 	}
 
 	@Override
@@ -53,7 +53,7 @@ public class MailServiceImpl implements MailService {
 		var message = new String(Files.readAllBytes(file.toPath()));
 		message = message.replace("$Nombre", persona.getNombre()).replace("$UrlRecuperarClave", urlRecuperarClave);
 
-		sendMail(persona.getEmail(), "Instituto Zarasa S.A - Pedido de cambio de clave", message);
+		sendMail(persona.getEmail(), "Instituto T&L S.A - Pedido de cambio de clave", message);
 	}
 
 }

@@ -10,4 +10,8 @@ public interface NotificacionDesinscripcionDao extends JpaRepository<Notificacio
 
     @Query("from NotificacionDesinscripcion nd where nd.estado = true")
     List<NotificacionDesinscripcion> findNotificacionesActivas();
+
+    Long countAllByEstadoIsTrue();
+
+    NotificacionDesinscripcion findNotificacionDesinscripcionByAlumno_IdUsuarioAndCurso_IdCurso(Long idPersona, Long idCurso);
 }

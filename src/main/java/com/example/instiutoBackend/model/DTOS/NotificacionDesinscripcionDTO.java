@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,7 +19,11 @@ public class NotificacionDesinscripcionDTO {
 
     private Long idEmpleado;
 
+    private Date fechaCreacionNotificacion;
+
     private String motivo;
 
     private boolean estado;
+
+    private String token;
 }

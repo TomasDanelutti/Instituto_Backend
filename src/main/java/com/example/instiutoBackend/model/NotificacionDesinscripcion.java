@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "notificacionesDesinscripcion")
@@ -29,7 +30,11 @@ public class NotificacionDesinscripcion {
     @JoinColumn(name = "idEmpleado")
     private Empleado empleado;
 
+    private Date fechaCreacionNotificacion;
+
     private String motivo;
 
     private boolean estado;
+
+    private String token;
 }

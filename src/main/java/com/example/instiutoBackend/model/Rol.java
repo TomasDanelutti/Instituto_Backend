@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "rol")
@@ -17,4 +18,8 @@ public class Rol {
     private Long idRol;
 
     private String nombre;
+
+    @Transient
+    private Set<Permiso> permisos;
+
 }

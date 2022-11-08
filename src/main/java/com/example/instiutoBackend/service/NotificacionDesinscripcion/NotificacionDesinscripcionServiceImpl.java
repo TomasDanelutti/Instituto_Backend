@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -30,19 +31,25 @@ public class NotificacionDesinscripcionServiceImpl implements NotificacionDesins
 
     @Override
     public Respuesta guardarSolicitudDesinscripcion(NotificacionDesinscripcionDTO notificacionesDesinscripcionDTO) {
-        NotificacionDesinscripcion notificacionDesinscripcion = new NotificacionDesinscripcion();
+        NotificacionDesinscripcion notificacionDesinscripcionn = new NotificacionDesinscripcion();
+        Assert.isNull(notificacionDesinscripcionn, "Ya has enviado una solicitud, poer favor espera a que sea respondida");
         Curso curso = cursoDao.findCursoByIdCurso(notificacionesDesinscripcionDTO.getIdCurso());
         Assert.notNull(curso, "Curso no encontrado.");
         Alumno alumno = alumnoDao.findAlumnoByIdUsuario(notificacionesDesinscripcionDTO.getIdAlumno());
-        System.out.println(notificacionesDesinscripcionDTO);
         Assert.notNull(alumno, "Alumno no encontrado.");
-        notificacionDesinscripcion.setAlumno(alumno);
-        notificacionDesinscripcion.setCurso(curso);
-        notificacionDesinscripcion.setMotivo(notificacionesDesinscripcionDTO.getMotivo());
-        notificacionDesinscripcion.setEstado(true);
-        notificacionDesinscripcionDao.save(notificacionDesinscripcion);
+        notificacionDesinscripcionn.setAlumno(alumno);
+        notificacionDesinscripcionn.setCurso(curso);
+        notificacionDesinscripcionn.setFechaCreacionNotificacion(new Date());
+        notificacionDesinscripcionn.setMotivo(notificacionesDesinscripcionDTO.getMotivo());
+        notificacionDesinscripcionn.setEstado(true);
+        notificacionDesinscripcionDao.save(notificacionDesinscripcionn);
         return new Respuesta(Estado.OK,"Hemos recibido su solicitud de desinscripcion al curso "
                 + curso.getNombre() + ". Recibiras un correo de confirmacion cuando se complete la desuscrición. Gracias");
+    }
+
+    @Override
+    public Long contarNotificacionesDesinscripcionActivas() {
+        return notificacionDesinscripcionDao.countAllByEstadoIsTrue();
     }
 
     @Override

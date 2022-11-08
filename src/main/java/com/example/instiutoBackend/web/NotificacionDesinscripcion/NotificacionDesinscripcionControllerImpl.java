@@ -25,6 +25,13 @@ public class NotificacionDesinscripcionControllerImpl implements NotificacionDes
     }
 
     @Override
+    @GetMapping("/count")
+    @ResponseStatus(HttpStatus.OK)
+    public Long contarNotificacionesDesinscripcionActivas() {
+        return notificacionDesinscripcionService.contarNotificacionesDesinscripcionActivas();
+    }
+
+    @Override
     @PostMapping("/guardar")
     @ResponseStatus(HttpStatus.OK)
     public Respuesta guardarSolicitudDesinscripcion(@RequestBody NotificacionDesinscripcionDTO notificacionesDesinscripcionDTO) {
