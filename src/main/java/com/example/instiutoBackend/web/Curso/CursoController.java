@@ -5,6 +5,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
+import java.util.Set;
 
 public interface CursoController {
 
@@ -18,7 +19,7 @@ public interface CursoController {
 
     List<Curso> findCursoByNombre(String nombre);
 
-    List<Curso> findCursoNoInscriptosByUsuario(Long idUsuario);
+    Set<Curso> findCursoNoInscriptosByUsuario(Long idUsuario);
 
     List<Curso> findCursoInscriptosByUsuario(Long idUsuario);
 

@@ -8,15 +8,15 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "notificacionesDesinscripcion")
+@Table(name = "Desinscripciones")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class NotificacionDesinscripcion {
+public class Desinscripcion {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idNotificacionDesinscripcion;
+    private Long idDesinscripcion;
 
     @ManyToOne
     @JoinColumn(name = "idAlumno")
@@ -30,7 +30,7 @@ public class NotificacionDesinscripcion {
     @JoinColumn(name = "idEmpleado")
     private Empleado empleado;
 
-    private Date fechaCreacionNotificacion;
+    private Date fechaCreacionDesinscripcion;
 
     private String motivo;
 

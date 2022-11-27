@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import java.util.Set;
 
 public interface CursoDao extends JpaRepository<Curso, Long> {
 
@@ -25,7 +26,7 @@ public interface CursoDao extends JpaRepository<Curso, Long> {
     List<Curso> findCursoInscriptosByUsuario(Long idUsuario);
 
     @Query("from Curso c inner join Inscripcion i on i.curso.idCurso = c.idCurso where i.alumno.idUsuario != :idUsuario")
-    List<Curso> findCursoNoInscriptosByUsuario(Long idUsuario);
+    Set<Curso> findCursoNoInscriptosByUsuario(Long idUsuario);
 
     List<Curso> findAllByActivo(boolean activo);
 

@@ -17,4 +17,6 @@ public interface EmpleadoDao extends JpaRepository<Empleado, Long> {
     List<Empleado> findEmpleadoByNombreIgnoreCase(String nombre);
 
     List<Empleado> findEmpleadoByPuesto(String puesto);
+
+    Empleado findByIdUsuario(Long idUsuario);
 }

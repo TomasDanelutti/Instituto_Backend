@@ -2,6 +2,7 @@ package com.example.instiutoBackend.web.Alumno;
 
 import com.example.instiutoBackend.model.Alumno;
 import com.example.instiutoBackend.service.Alumno.AlumnoService;
+import com.example.instiutoBackend.system.ErrorHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
@@ -36,7 +37,7 @@ public class AlumnoControllerImpl implements AlumnoController {
     @ResponseStatus(HttpStatus.CREATED)
     public Alumno guardarAlumno(@RequestBody Alumno alumno, BindingResult result) throws Exception {
         if (result.hasErrors()) {
-            throw new Exception("Datos incompletos");
+            throw new Exception(ErrorHandler.handle(result.getFieldErrors()));
         }
         return alumnoService.guardarAlumno(alumno);
     }

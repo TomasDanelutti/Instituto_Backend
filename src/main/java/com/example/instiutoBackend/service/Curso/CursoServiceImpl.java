@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -26,6 +27,7 @@ public class CursoServiceImpl implements CursoService{
     public List<Curso> findCursosPaginados(Integer pageNo, Integer pageSize) {
         Pageable pagina = PageRequest.of(pageNo, pageSize);
         Page<Curso> cursos = cursoDao.findAllBy(pagina);
+
         return cursos.getContent();
     }
 
@@ -64,7 +66,9 @@ public class CursoServiceImpl implements CursoService{
             return cursoDao.findCursoInscriptosByUsuario(idUsuario);
     }
 
-    public List<Curso> findCursosNoInscriptosByUsuario(Long idUsuario) {
+    public Set<Curso> findCursosNoInscriptosByUsuario(Long idUsuario) {
+//        List<Curso> cursos = cursoDao.findCursoNoInscriptosByUsuario(idUsuario);
+//        System.out.println(cursos.size());
         return cursoDao.findCursoNoInscriptosByUsuario(idUsuario);
     }
 

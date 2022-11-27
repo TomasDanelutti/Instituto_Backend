@@ -3,10 +3,8 @@ package com.example.instiutoBackend.service.Empleado;
 import com.example.instiutoBackend.dao.Empleado.EmpleadoDao;
 import com.example.instiutoBackend.dao.Imagen.ImagenDao;
 import com.example.instiutoBackend.dao.Rol.RolDao;
-import com.example.instiutoBackend.model.Archivo;
-import com.example.instiutoBackend.model.Empleado;
-import com.example.instiutoBackend.model.Persona;
-import com.example.instiutoBackend.model.Rol;
+import com.example.instiutoBackend.dao.UsuarioLogin.UsuarioLoginDao;
+import com.example.instiutoBackend.model.*;
 import com.example.instiutoBackend.service.email.MailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -32,6 +30,8 @@ public class EmpleadoServiceImpl implements EmpleadoService {
 
     private final MailService mailService;
 
+    private final UsuarioLoginDao usuarioLoginDao;
+
     @Override
     public List<Empleado> findEmpleadosPaginados(Integer pageNo, Integer pageSize) {
         Pageable pagina = PageRequest.of(pageNo, pageSize);
@@ -47,11 +47,14 @@ public class EmpleadoServiceImpl implements EmpleadoService {
     @Override
     public Empleado guardarEmpleado(Empleado empleado) throws IOException {
         if (empleado.getIdUsuario() == null) {
-            String clave = Persona.cadenaAleatoria(8);
-            mailService.sendMailGeneracionNuevaClave(empleado);
             empleado.setUuid(UUID.randomUUID());
+            UsuarioLogin nuevoUsuarioLogin = new UsuarioLogin();
+            nuevoUsuarioLogin.setDni(empleado.getDni());
+            nuevoUsuarioLogin.setClave(Persona.cadenaAleatoria(8));
+            usuarioLoginDao.save(nuevoUsuarioLogin);
+            mailService.sendMailGeneracionClaveEmpleado(empleado,nuevoUsuarioLogin);
         }
-        if (empleado.getImagen().getFoto() == null) {
+        if (empleado.getImagen() == null) {
             Archivo archivo = new Archivo();
             imagenDao.save(archivo.setFotoUsuarioDefault());
             empleado.setImagen(archivo.setFotoUsuarioDefault());

@@ -3,6 +3,7 @@ package com.example.instiutoBackend.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.util.*;
@@ -19,17 +20,20 @@ public class Persona {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idUsuario;
 
+    @ColumnDefault("uuid_generate_v4()")
     private UUID uuid;
 
     private Long dni;
-
     private String nombre;
-
     private String apellido;
 
     private String domicilio;
 
     private Long telefono;
+
+    private String estadoCivil;
+
+    private String nivelEducativo;
 
     private String genero;
 
@@ -48,6 +52,11 @@ public class Persona {
     @ManyToOne
     @JoinColumn(name = "idRol")
     private Rol rol;
+
+
+    public String findNombreApellido() {
+        return nombre + ", " + apellido;
+    }
 
     public static String cadenaAleatoria(int longitud) {
         // El banco de caracteres

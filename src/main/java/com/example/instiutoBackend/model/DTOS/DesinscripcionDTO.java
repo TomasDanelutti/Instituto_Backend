@@ -11,7 +11,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class NotificacionDesinscripcionDTO {
+public class DesinscripcionDTO {
 
     private Long idAlumno;
 

@@ -1,6 +1,9 @@
 package com.example.instiutoBackend.service.email;
 
+import com.example.instiutoBackend.model.Desinscripcion;
+import com.example.instiutoBackend.model.Empleado;
 import com.example.instiutoBackend.model.Persona;
+import com.example.instiutoBackend.model.UsuarioLogin;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -38,12 +41,12 @@ public class MailServiceImpl implements MailService {
 	}
 
 	@Override
-	public void sendMailGeneracionNuevaClave(Persona persona) throws IOException {
-		var file = ResourceUtils.getFile("classpath:templates/sendMailGeneracionNuevaClave.html");
+	public void sendMailGeneracionClaveEmpleado(Empleado empleado, UsuarioLogin usuarioLogin) throws IOException {
+		var file = ResourceUtils.getFile("classpath:templates/sendMailGeneracionClaveEmpleado.html");
 		var message = new String(Files.readAllBytes(file.toPath()));
-		message = message.replace("$Nombre", persona.getNombre()).replace("$NuevaClave", "persona.getClave()");
+		message = message.replace("$Nombre", empleado.findNombreApellido()).replace("$puesto", empleado.getPuesto()).replace("$NuevaClave", usuarioLogin.getClave());
 
-		sendMail(persona.getEmail(), "Instituto T&L S.A - Nueva clave", message);
+		sendMail(empleado.getEmail(), "Instituto T&L S.A - Creación de cuenta", message);
 	}
 
 	@Override
@@ -51,9 +54,27 @@ public class MailServiceImpl implements MailService {
 		String urlRecuperarClave = serverUrl + "generarClave/" + persona.getUuid().toString();
 		var file = ResourceUtils.getFile("classpath:templates/sendMailSolicitudGenerarNuevaClave.html");
 		var message = new String(Files.readAllBytes(file.toPath()));
-		message = message.replace("$Nombre", persona.getNombre()).replace("$UrlRecuperarClave", urlRecuperarClave);
+		message = message.replace("$Nombre", persona.findNombreApellido()).replace("$UrlRecuperarClave", urlRecuperarClave);
 
-		sendMail(persona.getEmail(), "Instituto T&L S.A - Pedido de cambio de clave", message);
+		sendMail(persona.getEmail(), "Instituto T&L S.A - Solicitud de cambio de clave", message);
+	}
+
+	@Override
+	public void sendMailGeneraionTokenDesinscripcion(Desinscripcion desinscripcion) throws IOException {
+		var file = ResourceUtils.getFile("classpath:templates/sendMailGeneracionTokenDesinscripcion.html");
+		var message = new String(Files.readAllBytes(file.toPath()));
+		message = message.replace("$Nombre", desinscripcion.getAlumno().findNombreApellido()).replace("$token", desinscripcion.getToken());
+
+		sendMail(desinscripcion.getAlumno().getEmail(), "Instituto T&L S.A - Token de seguridad para solicitud de desinscripción", message);
+	}
+
+	@Override
+	public void cancelarDesinscripcion(Desinscripcion desinscripcion) throws IOException {
+		var file = ResourceUtils.getFile("classpath:templates/sendMailCalcelarDesinscripcion.html");
+		var message = new String(Files.readAllBytes(file.toPath()));
+		message = message.replace("$Nombre", desinscripcion.getAlumno().findNombreApellido()).replace("$administrativo", desinscripcion.getEmpleado().findNombreApellido()).replace("$motivo", desinscripcion.getMotivo());
+
+		sendMail(desinscripcion.getAlumno().getEmail(), "Instituto T&L S.A - Actualización de su solicitud de Desinscripción", message);
 	}
 
 }

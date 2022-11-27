@@ -3,9 +3,8 @@ package com.example.instiutoBackend.service.Alumno;
 import com.example.instiutoBackend.dao.Alumno.AlumnoDao;
 import com.example.instiutoBackend.dao.Imagen.ImagenDao;
 import com.example.instiutoBackend.dao.Rol.RolDao;
-import com.example.instiutoBackend.model.Alumno;
-import com.example.instiutoBackend.model.Archivo;
-import com.example.instiutoBackend.model.Rol;
+import com.example.instiutoBackend.dao.UsuarioLogin.UsuarioLoginDao;
+import com.example.instiutoBackend.model.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -26,6 +25,7 @@ public class AlumnoServiceImpl implements AlumnoService {
 
     private final RolDao rolDao;
 
+    private final UsuarioLoginDao usuarioLoginDao;
     private final ImagenDao imagenDao;
     @Override
     public List<Alumno> findAlumnosPaginados(Integer pageNo, Integer pageSize) {
@@ -41,10 +41,11 @@ public class AlumnoServiceImpl implements AlumnoService {
 
     @Override
     public Alumno guardarAlumno(Alumno alumno) {
-        if (alumno.getImagen().getFoto() == null) {
+        if (alumno.getImagen() == null) {
             Archivo archivo = new Archivo();
             imagenDao.save(archivo.setFotoUsuarioDefault());
             alumno.setImagen(archivo.setFotoUsuarioDefault());
+//            usuarioLoginDao.save(usuarioLogin);
         }
         else {
             imagenDao.save(alumno.getImagen());

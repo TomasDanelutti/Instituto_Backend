@@ -8,6 +8,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/curso")
@@ -58,7 +59,7 @@ public class CursoControllerImpl implements CursoController{
 
     @Override
     @GetMapping("/findNoInscriptos/{idUsuario}")
-    public List<Curso> findCursoNoInscriptosByUsuario(@PathVariable("idUsuario") Long idUsuario) {
+    public Set<Curso> findCursoNoInscriptosByUsuario(@PathVariable("idUsuario") Long idUsuario) {
         return cursoService.findCursosNoInscriptosByUsuario(idUsuario);
     }
 

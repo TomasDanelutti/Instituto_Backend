@@ -1,6 +1,7 @@
 package com.example.instiutoBackend.web.Empleado;
 
 import com.example.instiutoBackend.model.Empleado;
+import org.springframework.validation.BindingResult;
 
 import java.io.IOException;
 import java.util.List;
@@ -11,7 +12,7 @@ public interface EmpleadoController {
 
     Long contarEmpleados();
 
-    Empleado guardarEmpleado(Empleado empleado) throws IOException;
+    Empleado guardarEmpleado(Empleado empleado, BindingResult result) throws Exception;
 
     List<Empleado> findEmpleadosByNombre(String nombre);
 

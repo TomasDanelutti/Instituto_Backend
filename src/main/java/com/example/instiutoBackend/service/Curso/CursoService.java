@@ -3,6 +3,7 @@ package com.example.instiutoBackend.service.Curso;
 import com.example.instiutoBackend.model.Curso;
 
 import java.util.List;
+import java.util.Set;
 
 public interface CursoService {
 
@@ -19,7 +20,7 @@ public interface CursoService {
 
     List<Curso> findCursosInscriptosByUsuario(Long idUsuario);
 
-    List<Curso> findCursosNoInscriptosByUsuario(Long idUsuario);
+    Set<Curso> findCursosNoInscriptosByUsuario(Long idUsuario);
 
     List<Curso> findAllByActivo(boolean activo);
 }
