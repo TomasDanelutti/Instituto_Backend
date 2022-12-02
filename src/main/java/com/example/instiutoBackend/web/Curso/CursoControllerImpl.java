@@ -1,6 +1,7 @@
 package com.example.instiutoBackend.web.Curso;
 
 import com.example.instiutoBackend.model.Curso;
+import com.example.instiutoBackend.model.Respuesta;
 import com.example.instiutoBackend.service.Curso.CursoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -46,8 +47,8 @@ public class CursoControllerImpl implements CursoController{
     @Override
     @DeleteMapping("/{idCurso}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void eliminarCurso(@PathVariable Long idCurso) throws Exception {
-        cursoService.eliminarCurso(idCurso);
+    public Respuesta eliminarCurso(@PathVariable Long idCurso) throws Exception {
+       return cursoService.eliminarCurso(idCurso);
     }
 
     @Override

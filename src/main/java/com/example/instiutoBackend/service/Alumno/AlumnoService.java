@@ -1,6 +1,7 @@
 package com.example.instiutoBackend.service.Alumno;
 
 import com.example.instiutoBackend.model.Alumno;
+import com.example.instiutoBackend.model.EXTS.AlumnoEXTS;
 
 import java.util.List;
 
@@ -10,7 +11,7 @@ public interface AlumnoService {
 
     Long contarALumnos();
 
-    Alumno guardarAlumno(Alumno alumno);
+    Alumno guardarAlumno(AlumnoEXTS alumno);
 
     List<Alumno> findALumnosByNombre(String nombre);
 

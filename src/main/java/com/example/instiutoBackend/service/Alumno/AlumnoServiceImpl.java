@@ -5,6 +5,7 @@ import com.example.instiutoBackend.dao.Imagen.ImagenDao;
 import com.example.instiutoBackend.dao.Rol.RolDao;
 import com.example.instiutoBackend.dao.UsuarioLogin.UsuarioLoginDao;
 import com.example.instiutoBackend.model.*;
+import com.example.instiutoBackend.model.EXTS.AlumnoEXTS;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -40,7 +41,8 @@ public class AlumnoServiceImpl implements AlumnoService {
     }
 
     @Override
-    public Alumno guardarAlumno(Alumno alumno) {
+    public Alumno guardarAlumno(AlumnoEXTS alumno) {
+        Alumno alumno1 ;
         if (alumno.getImagen() == null) {
             Archivo archivo = new Archivo();
             imagenDao.save(archivo.setFotoUsuarioDefault());

@@ -4,6 +4,8 @@ import com.example.instiutoBackend.dao.Curso.CursoDao;
 import com.example.instiutoBackend.dao.Imagen.ImagenDao;
 import com.example.instiutoBackend.model.Archivo;
 import com.example.instiutoBackend.model.Curso;
+import com.example.instiutoBackend.model.Estado;
+import com.example.instiutoBackend.model.Respuesta;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -52,9 +54,10 @@ public class CursoServiceImpl implements CursoService{
     }
 
     @Override
-    public void eliminarCurso(Long idCurso) throws Exception {
+    public Respuesta eliminarCurso(Long idCurso) throws Exception {
         Curso curso = cursoDao.findCursoByIdCurso(idCurso);
         cursoDao.delete(curso);
+        return new Respuesta(Estado.OK,"El curso" + curso.getNombre() + "ha sido eliminado correctamente");
     }
 
     @Override

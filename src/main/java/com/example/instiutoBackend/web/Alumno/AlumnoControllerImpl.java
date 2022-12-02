@@ -1,6 +1,7 @@
 package com.example.instiutoBackend.web.Alumno;
 
 import com.example.instiutoBackend.model.Alumno;
+import com.example.instiutoBackend.model.EXTS.AlumnoEXTS;
 import com.example.instiutoBackend.service.Alumno.AlumnoService;
 import com.example.instiutoBackend.system.ErrorHandler;
 import lombok.RequiredArgsConstructor;
@@ -35,7 +36,7 @@ public class AlumnoControllerImpl implements AlumnoController {
     @Override
     @PostMapping("guardar")
     @ResponseStatus(HttpStatus.CREATED)
-    public Alumno guardarAlumno(@RequestBody Alumno alumno, BindingResult result) throws Exception {
+    public Alumno guardarAlumno(@RequestBody AlumnoEXTS alumno, BindingResult result) throws Exception {
         if (result.hasErrors()) {
             throw new Exception(ErrorHandler.handle(result.getFieldErrors()));
         }

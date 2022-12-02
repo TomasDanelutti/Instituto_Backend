@@ -1,6 +1,7 @@
 package com.example.instiutoBackend.service.Curso;
 
 import com.example.instiutoBackend.model.Curso;
+import com.example.instiutoBackend.model.Respuesta;
 
 import java.util.List;
 import java.util.Set;
@@ -13,7 +14,7 @@ public interface CursoService {
 
     void guardarCurso(Curso curso) throws Exception;
 
-    void eliminarCurso(Long idCurso) throws Exception;
+    Respuesta eliminarCurso(Long idCurso) throws Exception;
 
 
     List<Curso> findCursoByNombre(String nombre);
