@@ -15,5 +15,5 @@ public interface AlumnoDao extends JpaRepository<Alumno, Long> {
 
     List<Alumno> findAlumnosByNombreIgnoreCase(String nombre);
 
-    Alumno findAlumnoByIdUsuario(Long idUsuario);
+    Alumno findAlumnoByIdPersona(Long idPersona);
 }
