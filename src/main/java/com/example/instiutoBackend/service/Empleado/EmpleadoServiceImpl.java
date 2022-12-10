@@ -46,7 +46,7 @@ public class EmpleadoServiceImpl implements EmpleadoService {
 
     @Override
     public Empleado guardarEmpleado(Empleado empleado) throws IOException {
-        if (empleado.getIdUsuario() == null) {
+        if (empleado.getIdPersona() == null) {
             empleado.setUuid(UUID.randomUUID());
             UsuarioLogin nuevoUsuarioLogin = new UsuarioLogin();
             nuevoUsuarioLogin.setDni(empleado.getDni());

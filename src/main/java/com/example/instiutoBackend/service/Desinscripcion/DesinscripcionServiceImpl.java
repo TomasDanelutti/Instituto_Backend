@@ -40,13 +40,13 @@ public class DesinscripcionServiceImpl implements DesinscripcionService {
 
     @Override
     public void getToken(DesinscripcionDTO desinscripcionDTO) throws IOException {
-        Desinscripcion desinscripcionBD = desinscripcionDao.findDesinscripcionByAlumno_IdUsuarioAndCurso_IdCursoAAndEstadoIsTrue(desinscripcionDTO.getIdAlumno(), desinscripcionDTO.getIdCurso());
+        Desinscripcion desinscripcionBD = desinscripcionDao.findDesinscripcionByAlumno_IdPersonaAndCurso_IdCursoAAndEstadoIsTrue(desinscripcionDTO.getIdAlumno(), desinscripcionDTO.getIdCurso());
         Assert.isNull(desinscripcionBD, "Ya has enviado una solicitud, por favor espera a que sea respondida");
         Curso curso = cursoDao.findCursoByIdCurso(desinscripcionDTO.getIdCurso());
         System.out.println(desinscripcionDTO);
         System.out.println(curso);
         Assert.notNull(curso, "Curso no encontrado.");
-        Alumno alumno = alumnoDao.findAlumnoByIdUsuario(desinscripcionDTO.getIdAlumno());
+        Alumno alumno = alumnoDao.findAlumnoByIdPersona(desinscripcionDTO.getIdAlumno());
         Assert.notNull(alumno, "Alumno no encontrado.");
         Desinscripcion desinscripcion = new Desinscripcion();
         desinscripcion.setAlumno(alumno);
@@ -61,7 +61,7 @@ public class DesinscripcionServiceImpl implements DesinscripcionService {
 
     @Override
     public Respuesta guardarDesinscripcion(DesinscripcionDTO desinscripcionDTO) {
-        Desinscripcion desinscripcionBD = desinscripcionDao.findDesinscripcionByAlumno_IdUsuarioAndCurso_IdCursoAAndEstadoIsTrue(desinscripcionDTO.getIdAlumno(), desinscripcionDTO.getIdCurso());
+        Desinscripcion desinscripcionBD = desinscripcionDao.findDesinscripcionByAlumno_IdPersonaAndCurso_IdCursoAAndEstadoIsTrue(desinscripcionDTO.getIdAlumno(), desinscripcionDTO.getIdCurso());
         if (desinscripcionDTO.getToken() != null) {
             System.out.println(desinscripcionDTO.getToken());
             System.out.println(desinscripcionBD.getToken());
@@ -87,8 +87,8 @@ public class DesinscripcionServiceImpl implements DesinscripcionService {
 
     @Override
     public Respuesta cancelarDescripcion(DesinscripcionDTO desinscripcionDTO) throws IOException {
-        Desinscripcion desinscripcionBD = desinscripcionDao.findDesinscripcionByAlumno_IdUsuarioAndCurso_IdCursoAAndEstadoIsTrue(desinscripcionDTO.getIdAlumno(), desinscripcionDTO.getIdCurso());
-        Empleado empleado = empleadoDao.findByIdUsuario(desinscripcionDTO.getIdEmpleado());
+        Desinscripcion desinscripcionBD = desinscripcionDao.findDesinscripcionByAlumno_IdPersonaAndCurso_IdCursoAAndEstadoIsTrue(desinscripcionDTO.getIdAlumno(), desinscripcionDTO.getIdCurso());
+        Empleado empleado = empleadoDao.findByIdPersona(desinscripcionDTO.getIdEmpleado());
         Assert.notNull(empleado, "Error de seguridad. Solo los empleados pueden realizar esta acción");
         desinscripcionBD.setMotivo(desinscripcionDTO.getMotivo());
         desinscripcionBD.setEstado(false);

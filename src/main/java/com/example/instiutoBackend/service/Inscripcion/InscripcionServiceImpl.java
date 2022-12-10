@@ -31,7 +31,7 @@ public class InscripcionServiceImpl implements InscripcionService {
                 "Si crees que es un error contactate con Bedelia. Gracias");
         Curso curso = cursoDao.findCursoByIdCurso(inscripcionDTO.getIdCurso());
         Assert.notNull(curso, "No hemos podido encontrar el curso.");
-        Alumno alumno = alumnoDao.findAlumnoByIdUsuario(inscripcionDTO.getIdUsuario());
+        Alumno alumno = alumnoDao.findAlumnoByIdPersona(inscripcionDTO.getIdUsuario());
         Assert.notNull(alumno, "No hemos podido encontrar el alumno.");
         Inscripcion inscripcion = new Inscripcion();
         inscripcion.setAlumno(alumno);
@@ -45,7 +45,7 @@ public class InscripcionServiceImpl implements InscripcionService {
     public Respuesta desinscribirse(InscripcionDTO inscripcionDTO) throws Exception {
         Curso curso = cursoDao.findCursoByIdCurso(inscripcionDTO.getIdCurso());
         Assert.notNull(curso, "No hemos podido encontrar el curso.");
-        Alumno alumno = alumnoDao.findAlumnoByIdUsuario(inscripcionDTO.getIdUsuario());
+        Alumno alumno = alumnoDao.findAlumnoByIdPersona(inscripcionDTO.getIdUsuario());
         Assert.notNull(alumno, "No hemos podido encontrar el alumno.");
         Inscripcion inscripcion = new Inscripcion();
         inscripcion.setAlumno(alumno);

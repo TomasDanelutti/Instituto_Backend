@@ -13,6 +13,6 @@ public interface DesinscripcionDao extends JpaRepository<Desinscripcion, Long> {
 
     Long countAllByEstadoIsTrue();
 
-    @Query("from Desinscripcion d where d.alumno.idUsuario = :idPersona AND d.curso.idCurso = :idCurso AND d.estado = true")
-    Desinscripcion findDesinscripcionByAlumno_IdUsuarioAndCurso_IdCursoAAndEstadoIsTrue(Long idPersona, Long idCurso);
+    @Query("from Desinscripcion d where d.alumno.idPersona = :idPersona AND d.curso.idCurso = :idCurso AND d.estado = true")
+    Desinscripcion findDesinscripcionByAlumno_IdPersonaAndCurso_IdCursoAAndEstadoIsTrue(Long idPersona, Long idCurso);
 }

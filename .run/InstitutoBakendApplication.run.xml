@@ -1,0 +1,12 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="InstitutoBakendApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <option name="ALTERNATIVE_JRE_PATH" value="17" />
+    <option name="DEBUG_MODE" value="true" />
+    <option name="INCLUDE_PROVIDED_SCOPE" value="false" />
+    <module name="instiutoBackend" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.instiutoBackend.InstiutoBackendApplication" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

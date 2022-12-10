@@ -65,14 +65,14 @@ public class CursoServiceImpl implements CursoService{
         return cursoDao.findCursosByNombreContainingIgnoreCase(nombre);
     }
 
-    public List<Curso> findCursosInscriptosByUsuario(Long idUsuario) {
-            return cursoDao.findCursoInscriptosByUsuario(idUsuario);
+    public List<Curso> findCursosInscriptosByUsuario(Long idPersona) {
+            return cursoDao.findCursoInscriptosByPersona(idPersona);
     }
 
-    public Set<Curso> findCursosNoInscriptosByUsuario(Long idUsuario) {
+    public Set<Curso> findCursosNoInscriptosByUsuario(Long idPersona) {
 //        List<Curso> cursos = cursoDao.findCursoNoInscriptosByUsuario(idUsuario);
 //        System.out.println(cursos.size());
-        return cursoDao.findCursoNoInscriptosByUsuario(idUsuario);
+        return cursoDao.findCursoNoInscriptosByPersona(idPersona);
     }
 
     @Override

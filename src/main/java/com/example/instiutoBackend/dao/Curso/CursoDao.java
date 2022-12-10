@@ -22,11 +22,11 @@ public interface CursoDao extends JpaRepository<Curso, Long> {
 
     List<Curso> findCursosByNombreContainingIgnoreCase(String nombre);
 
-    @Query("from Curso c inner join Inscripcion i on i.curso.idCurso = c.idCurso where i.alumno.idUsuario = :idUsuario")
-    List<Curso> findCursoInscriptosByUsuario(Long idUsuario);
+    @Query("from Curso c inner join Inscripcion i on i.curso.idCurso = c.idCurso where i.alumno.idPersona = :idPersona")
+    List<Curso> findCursoInscriptosByPersona(Long idPersona);
 
-    @Query("from Curso c inner join Inscripcion i on i.curso.idCurso = c.idCurso where i.alumno.idUsuario != :idUsuario")
-    Set<Curso> findCursoNoInscriptosByUsuario(Long idUsuario);
+    @Query("from Curso c inner join Inscripcion i on i.curso.idCurso = c.idCurso where i.alumno.idPersona != :idPersona")
+    Set<Curso> findCursoNoInscriptosByPersona(Long idPersona);
 
     List<Curso> findAllByActivo(boolean activo);
 

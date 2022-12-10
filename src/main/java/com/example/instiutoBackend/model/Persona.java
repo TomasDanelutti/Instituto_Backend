@@ -3,14 +3,13 @@ package com.example.instiutoBackend.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 @Entity
-@Table(name = "usuario")
+@Table(name = "personas")
 @Inheritance(strategy = InheritanceType.JOINED)
 @Data
 @NoArgsConstructor
@@ -18,9 +17,8 @@ import java.util.concurrent.ThreadLocalRandom;
 public class Persona {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idUsuario;
+    private Long idPersona;
 
-    @ColumnDefault("uuid_generate_v4()")
     private UUID uuid;
 
     private Long dni;
