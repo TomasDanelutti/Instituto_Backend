@@ -26,12 +26,12 @@ public class InscripcionServiceImpl implements InscripcionService {
 
     @Override
     public Respuesta inscribirse(InscripcionDTO inscripcionDTO) throws Exception {
-        Persona persona = inscripcionDao.findAlumnoByCurso(inscripcionDTO.getIdCurso(), inscripcionDTO.getIdUsuario());
+        Persona persona = inscripcionDao.findAlumnoByCurso(inscripcionDTO.getIdCurso(), inscripcionDTO.getIdPersona());
         Assert.isNull(persona, "No puedes inscribirte a este curso debido a que ya estas inscripto en el mismo. " +
                 "Si crees que es un error contactate con Bedelia. Gracias");
         Curso curso = cursoDao.findCursoByIdCurso(inscripcionDTO.getIdCurso());
         Assert.notNull(curso, "No hemos podido encontrar el curso.");
-        Alumno alumno = alumnoDao.findAlumnoByIdPersona(inscripcionDTO.getIdUsuario());
+        Alumno alumno = alumnoDao.findAlumnoByIdPersona(inscripcionDTO.getIdPersona());
         Assert.notNull(alumno, "No hemos podido encontrar el alumno.");
         Inscripcion inscripcion = new Inscripcion();
         inscripcion.setAlumno(alumno);
@@ -43,18 +43,14 @@ public class InscripcionServiceImpl implements InscripcionService {
 
     @Override
     public Respuesta desinscribirse(InscripcionDTO inscripcionDTO) throws Exception {
-        Curso curso = cursoDao.findCursoByIdCurso(inscripcionDTO.getIdCurso());
-        Assert.notNull(curso, "No hemos podido encontrar el curso.");
-        Alumno alumno = alumnoDao.findAlumnoByIdPersona(inscripcionDTO.getIdUsuario());
-        Assert.notNull(alumno, "No hemos podido encontrar el alumno.");
-        Inscripcion inscripcion = new Inscripcion();
-        inscripcion.setAlumno(alumno);
-        inscripcion.setCurso(curso);
+        System.out.println(inscripcionDTO);
+        Inscripcion inscripcion = inscripcionDao.findByCurso_IdCursoAndAlumno_IdPersona(inscripcionDTO.getIdCurso(), inscripcionDTO.getIdPersona());
+        Assert.notNull(inscripcion, "No hemos podido encontrar la inscripcion correspondiente");
         inscripcion.setMotivoDesunscripcion(inscripcionDTO.getMotivo());
         inscripcion.setActivo(false);
-        inscripcionDao.save(inscripcion);
-        return new Respuesta(Estado.OK, "el alumno" + alumno.getNombre() +
-                "ha sido desinscripto del curso" + curso.getNombre() + "correctamente");
+        inscripcionDao.delete(inscripcion);
+        return new Respuesta(Estado.OK, "el alumno " + inscripcion.getAlumno().getNombre() +
+                " ha sido desinscripto del curso " + inscripcion.getCurso().getNombre() + " correctamente");
     }
 
 

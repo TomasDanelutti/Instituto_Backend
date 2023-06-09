@@ -3,6 +3,7 @@ package com.example.instiutoBackend.service.Alumno;
 import com.example.instiutoBackend.model.Alumno;
 import com.example.instiutoBackend.model.EXTS.AlumnoEXTS;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface AlumnoService {
@@ -11,7 +12,7 @@ public interface AlumnoService {
 
     Long contarALumnos();
 
-    Alumno guardarAlumno(AlumnoEXTS alumno);
+    Alumno guardarAlumno(AlumnoEXTS alumno) throws IOException;
 
     List<Alumno> findALumnosByNombre(String nombre);
 

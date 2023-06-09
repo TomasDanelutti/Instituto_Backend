@@ -16,7 +16,7 @@ public class InscripcionDTO {
     private Long idCurso;
 
     @NotNull
-    private Long idUsuario;
+    private Long idPersona;
 
     @NotNull
     private String motivo;

@@ -1,9 +1,6 @@
 package com.example.instiutoBackend.service.email;
 
-import com.example.instiutoBackend.model.Desinscripcion;
-import com.example.instiutoBackend.model.Empleado;
-import com.example.instiutoBackend.model.Persona;
-import com.example.instiutoBackend.model.UsuarioLogin;
+import com.example.instiutoBackend.model.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -47,6 +44,15 @@ public class MailServiceImpl implements MailService {
 		message = message.replace("$Nombre", empleado.findNombreApellido()).replace("$puesto", empleado.getPuesto()).replace("$NuevaClave", usuarioLogin.getClave());
 
 		sendMail(empleado.getEmail(), "Instituto T&L S.A - Creación de cuenta", message);
+	}
+
+	@Override
+	public void sendMailCrearCuentaAlumno(Alumno alumno) throws IOException {
+		var file = ResourceUtils.getFile("classpath:templates/sendMaiCrearCuentaAlumno.html");
+		var message = new String(Files.readAllBytes(file.toPath()));
+		message = message.replace("$Nombre", alumno.findNombreApellido());
+
+		sendMail(alumno.getEmail(), "Instituto T&L S.A - Solicitud de cambio de clave", message);
 	}
 
 	@Override

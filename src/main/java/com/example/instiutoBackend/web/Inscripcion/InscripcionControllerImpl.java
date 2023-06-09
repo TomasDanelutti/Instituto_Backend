@@ -34,7 +34,8 @@ public class InscripcionControllerImpl implements InscripcionController {
     @Override
     @PostMapping("/desinscribirse")
     @ResponseStatus(HttpStatus.OK)
-    public Respuesta desinscribirse(InscripcionDTO inscripcionDTO, BindingResult result) throws Exception {
+    public Respuesta desinscribirse(@Validated @RequestBody InscripcionDTO inscripcionDTO, BindingResult result) throws Exception {
+        System.out.println(inscripcionDTO);
         if (result.hasErrors()) {
             throw new Exception("Datos incompletos");
         }

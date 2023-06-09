@@ -6,14 +6,15 @@ import com.example.instiutoBackend.dao.Rol.RolDao;
 import com.example.instiutoBackend.dao.UsuarioLogin.UsuarioLoginDao;
 import com.example.instiutoBackend.model.*;
 import com.example.instiutoBackend.model.EXTS.AlumnoEXTS;
+import com.example.instiutoBackend.service.email.MailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
@@ -28,6 +29,8 @@ public class AlumnoServiceImpl implements AlumnoService {
 
     private final UsuarioLoginDao usuarioLoginDao;
     private final ImagenDao imagenDao;
+
+    private final MailService mailService;
     @Override
     public List<Alumno> findAlumnosPaginados(Integer pageNo, Integer pageSize) {
         Pageable pagina = PageRequest.of(pageNo, pageSize);
@@ -41,27 +44,31 @@ public class AlumnoServiceImpl implements AlumnoService {
     }
 
     @Override
-    public Alumno guardarAlumno(AlumnoEXTS alumno) {
-        Alumno alumno1 ;
-        if (alumno.getImagen() == null) {
+    public Alumno guardarAlumno(AlumnoEXTS alumno) throws IOException {
+        if (alumno.getAlumno().getIdPersona() == null) {
+            alumno.getAlumno().setUuid(UUID.randomUUID());
+            Rol rol = new Rol();
+            rol.setIdRol(0L);
+            rol.setNombre("Alumno");
+            alumno.getAlumno().setRol(rol);
+            alumno.getAlumno().setActivo(true);
+            UsuarioLogin usuarioLogin = new UsuarioLogin();
+            usuarioLogin.setDni(alumno.getAlumno().getDni());
+            usuarioLogin.setClave(alumno.getClave());
+            usuarioLoginDao.save(usuarioLogin);
+            mailService.sendMailCrearCuentaAlumno(alumno.getAlumno());
+        }
+        if (alumno.getAlumno().getImagen() == null) {
             Archivo archivo = new Archivo();
             imagenDao.save(archivo.setFotoUsuarioDefault());
-            alumno.setImagen(archivo.setFotoUsuarioDefault());
-//            usuarioLoginDao.save(usuarioLogin);
+            alumno.getAlumno().setImagen(archivo.setFotoUsuarioDefault());
         }
         else {
-            imagenDao.save(alumno.getImagen());
+            imagenDao.save(alumno.getAlumno().getImagen());
         };
-        if (alumno.getIdUsuario() == null) {
-            alumno.setUuid(UUID.randomUUID());
-        }
-        Rol rol = new Rol();
-        rol.setIdRol(0L);
-        rol.setNombre("Alumno");
-        alumno.setRol(rol);
-        alumno.setActivo(true);
-        alumnoDao.save(alumno);
-        return alumno;
+        System.out.println(alumno.getAlumno().getIdPersona());
+        alumnoDao.save(alumno.getAlumno());
+        return alumno.getAlumno();
     }
 
     @Override

@@ -48,6 +48,11 @@ public class EmpleadoServiceImpl implements EmpleadoService {
     public Empleado guardarEmpleado(Empleado empleado) throws IOException {
         if (empleado.getIdPersona() == null) {
             empleado.setUuid(UUID.randomUUID());
+            Rol rol = new Rol();
+            rol.setIdRol(1L);
+            rol.setNombre("Administrativo");
+            empleado.setRol(rol);
+            empleado.setActivo(true);
             UsuarioLogin nuevoUsuarioLogin = new UsuarioLogin();
             nuevoUsuarioLogin.setDni(empleado.getDni());
             nuevoUsuarioLogin.setClave(Persona.cadenaAleatoria(8));
@@ -62,11 +67,6 @@ public class EmpleadoServiceImpl implements EmpleadoService {
         else {
             imagenDao.save(empleado.getImagen());
         }
-        Rol rol = new Rol();
-        rol.setIdRol(1L);
-        rol.setNombre("Administrativo");
-        empleado.setRol(rol);
-        empleado.setActivo(true);
         empleadoDao.save(empleado);
         return empleado;
     }
