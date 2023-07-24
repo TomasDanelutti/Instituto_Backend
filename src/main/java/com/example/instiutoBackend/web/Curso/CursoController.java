@@ -6,23 +6,22 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 public interface CursoController {
-
-    List<Curso> findCursosPaginados(Integer pageNo, Integer pageSize);
-
-
-    Long count();
+    List<Curso> GetCursosPaginado(Integer pageNo, Integer pageSize, Optional<String> nombre);
+    Long countCursos(Optional<String> nombre);
     Curso guardarCurso(Curso curso, BindingResult result) throws Exception;
 
     Respuesta eliminarCurso(Long idCurso) throws Exception;
 
-    List<Curso> findCursoByNombre(String nombre);
 
     Set<Curso> findCursoNoInscriptosByUsuario(Long idUsuario);
 
     List<Curso> findCursoInscriptosByUsuario(Long idUsuario);
 
     List<Curso> findAllByActivo(boolean activo);
+
+
 }

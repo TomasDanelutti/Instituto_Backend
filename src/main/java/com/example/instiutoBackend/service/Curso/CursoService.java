@@ -4,20 +4,16 @@ import com.example.instiutoBackend.model.Curso;
 import com.example.instiutoBackend.model.Respuesta;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 public interface CursoService {
 
-    List<Curso> findCursosPaginados(Integer pageNo, Integer pageSize);
-
-    Long count();
-
+    List<Curso> GetCursosPaginado(Integer pageNo, Integer pageSize, Optional<String> nombre);
+    Long countCursos(Optional<String> nombre);
     void guardarCurso(Curso curso) throws Exception;
 
     Respuesta eliminarCurso(Long idCurso) throws Exception;
-
-
-    List<Curso> findCursoByNombre(String nombre);
 
     List<Curso> findCursosInscriptosByUsuario(Long idUsuario);
 

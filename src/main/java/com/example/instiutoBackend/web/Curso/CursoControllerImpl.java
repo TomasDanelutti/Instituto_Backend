@@ -9,6 +9,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @RestController
@@ -19,18 +20,17 @@ public class CursoControllerImpl implements CursoController{
     private final CursoService cursoService;
 
     @Override
-    @GetMapping("/findBy/{pageNo}/{pageSize}")
-    @ResponseStatus(HttpStatus.OK)
-    public List<Curso> findCursosPaginados(@PathVariable("pageNo") Integer pageNo,
-                                           @PathVariable("pageSize") Integer pageSize) {
-        return cursoService.findCursosPaginados(pageNo, pageSize);
+    @GetMapping("/getCursosPaginado")
+    public List<Curso> GetCursosPaginado(@RequestParam("pageNo") Integer pageNo,
+                                         @RequestParam("pageSize") Integer pageSize,
+                                         @RequestParam("nombre") Optional<String> nombre) {
+        return cursoService.GetCursosPaginado(pageNo, pageSize, nombre);
     }
 
     @Override
     @GetMapping("/count")
-    @ResponseStatus(HttpStatus.OK)
-    public Long count() {
-        return cursoService.count();
+    public Long countCursos(@RequestParam("nombre") Optional<String> nombre) {
+        return cursoService.countCursos(nombre);
     }
 
     @Override
@@ -49,13 +49,6 @@ public class CursoControllerImpl implements CursoController{
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public Respuesta eliminarCurso(@PathVariable Long idCurso) throws Exception {
        return cursoService.eliminarCurso(idCurso);
-    }
-
-    @Override
-    @GetMapping("/findByNombre/{nombre}")
-    @ResponseStatus(HttpStatus.OK)
-    public List<Curso> findCursoByNombre(@PathVariable("nombre") String nombre) {
-        return cursoService.findCursoByNombre(nombre);
     }
 
     @Override

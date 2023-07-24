@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -32,15 +33,30 @@ public class AlumnoServiceImpl implements AlumnoService {
 
     private final MailService mailService;
     @Override
-    public List<Alumno> findAlumnosPaginados(Integer pageNo, Integer pageSize) {
+    public List<Alumno> getAlumnosPaginado(Integer pageNo, Integer pageSize, Optional<String> nombre) {
+        Page<Alumno> alumnos;
         Pageable pagina = PageRequest.of(pageNo, pageSize);
-        Page<Alumno> alumnos = alumnoDao.findAll(pagina);
-        return alumnos.getContent();
+        if (nombre.isPresent()) {
+            alumnos =  alumnoDao.findAlumnosByNombreContainingIgnoreCase(nombre.get(), pagina);
+        }
+        else {
+            alumnos = alumnoDao.findAll(pagina);
+        }
+        List<Alumno> listaAlumnos;
+        listaAlumnos = alumnos.getContent();
+        return listaAlumnos;
     }
 
     @Override
-    public Long contarALumnos() {
-        return alumnoDao.count();
+    public Long contarAlumnos(Optional<String> nombre) {
+        Long cantidad;
+        if (nombre.isPresent()) {
+            cantidad = alumnoDao.countAlumnosByNombreContainingIgnoreCase(nombre.get());
+        }
+        else {
+            cantidad = alumnoDao.countAlumnosBy();
+        }
+        return cantidad;
     }
 
     @Override
@@ -58,7 +74,7 @@ public class AlumnoServiceImpl implements AlumnoService {
             usuarioLoginDao.save(usuarioLogin);
             mailService.sendMailCrearCuentaAlumno(alumno.getAlumno());
         }
-        if (alumno.getAlumno().getImagen() == null) {
+        if (alumno.getAlumno().getImagen().getIdArchivo() == null) {
             Archivo archivo = new Archivo();
             imagenDao.save(archivo.setFotoUsuarioDefault());
             alumno.getAlumno().setImagen(archivo.setFotoUsuarioDefault());
@@ -66,13 +82,7 @@ public class AlumnoServiceImpl implements AlumnoService {
         else {
             imagenDao.save(alumno.getAlumno().getImagen());
         };
-        System.out.println(alumno.getAlumno().getIdPersona());
         alumnoDao.save(alumno.getAlumno());
         return alumno.getAlumno();
-    }
-
-    @Override
-    public List<Alumno> findALumnosByNombre(String nombre) {
-        return alumnoDao.findAlumnosByNombreIgnoreCase(nombre);
     }
 }

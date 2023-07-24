@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/empleados")
@@ -20,18 +21,19 @@ public class EmpleadoControllerImpl implements EmpleadoController {
     private final EmpleadoService empleadoService;
 
     @Override
-    @GetMapping("/findBy/{pageNo}/{pageSize}")
+    @GetMapping("/getEmpleadosPaginado")
     @ResponseStatus(HttpStatus.OK)
-    public List<Empleado> findEmpleadosPaginados(@PathVariable("pageNo") Integer pageNo,
-                                                      @PathVariable("pageSize") Integer pageSize) {
-        return empleadoService.findEmpleadosPaginados(pageNo, pageSize);
+    public List<Empleado> getEmpleadosPaginado(@RequestParam("pageNo") Integer pageNo,
+                                               @RequestParam("pageSize") Integer pageSize,
+                                               @RequestParam("nombre") Optional<String> nombre) {
+        return empleadoService.getEmpleadosPaginado(pageNo, pageSize, nombre);
     }
 
     @Override
     @GetMapping("/count")
     @ResponseStatus(HttpStatus.OK)
-    public Long contarEmpleados() {
-        return empleadoService.contarEmpleados();
+    public Long contarEmpleados(@RequestParam("nombre") Optional<String> nombre) {
+        return empleadoService.contarEmpleados(nombre);
     }
 
     @Override
@@ -45,16 +47,9 @@ public class EmpleadoControllerImpl implements EmpleadoController {
     }
 
     @Override
-    @GetMapping("/findByNombre/{nombre}")
-    @ResponseStatus(HttpStatus.OK)
-    public List<Empleado> findEmpleadosByNombre(@PathVariable("nombre") String nombre) {
-        return empleadoService.findEmpleadosByNombre(nombre);
-    }
-
-    @Override
     @GetMapping("/findByPuesto/{puesto}")
     @ResponseStatus(HttpStatus.OK)
     public List<Empleado> findEmpleadosByPuesto(@PathVariable("puesto") String puesto) {
-        return empleadoService.findEmpleadosByNombre(puesto);
+        return null;
     }
 }

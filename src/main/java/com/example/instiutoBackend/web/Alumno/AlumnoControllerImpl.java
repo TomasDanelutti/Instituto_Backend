@@ -10,6 +10,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/alumno")
@@ -19,18 +20,20 @@ public class AlumnoControllerImpl implements AlumnoController {
     private final AlumnoService alumnoService;
 
     @Override
-    @GetMapping("/findBy/{pageNo}/{pageSize}")
+    @GetMapping("/getAlumnosPaginado")
     @ResponseStatus(HttpStatus.OK)
-    public List<Alumno> findAlumnosPaginados(@PathVariable("pageNo") Integer pageNo,
-                                             @PathVariable("pageSize") Integer pageSize) {
-        return alumnoService.findAlumnosPaginados(pageNo, pageSize);
+    public List<Alumno> getAlumnosPaginado(@RequestParam("pageNo") Integer pageNo,
+                                            @RequestParam("pageSize") Integer pageSize,
+                                            @RequestParam("nombre") Optional<String> nombre) {
+        return alumnoService.getAlumnosPaginado(pageNo, pageSize, nombre);
     }
 
     @Override
     @GetMapping("/count")
     @ResponseStatus(HttpStatus.OK)
-    public Long contarAlumnos() {
-        return alumnoService.contarALumnos();
+    public Long contarAlumnos(@RequestParam("nombre") Optional<String> nombre)
+    {
+        return alumnoService.contarAlumnos(nombre);
     }
 
     @Override
@@ -41,12 +44,5 @@ public class AlumnoControllerImpl implements AlumnoController {
             throw new Exception(ErrorHandler.handle(result.getFieldErrors()));
         }
         return alumnoService.guardarAlumno(alumno);
-    }
-
-    @Override
-    @GetMapping("/findByNombre/{nombre}")
-    @ResponseStatus(HttpStatus.OK)
-    public List<Alumno> findAlumnosByNombre(@PathVariable("nombre") String nombre) {
-        return alumnoService.findALumnosByNombre(nombre);
     }
 }

@@ -5,16 +5,15 @@ import org.springframework.validation.BindingResult;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 public interface EmpleadoController {
 
-    List<Empleado> findEmpleadosPaginados(Integer pageNo, Integer pageSize);
+    List<Empleado> getEmpleadosPaginado(Integer pageNo, Integer pageSize, Optional<String> nombre);
 
-    Long contarEmpleados();
+    Long contarEmpleados(Optional<String> nombre);
 
     Empleado guardarEmpleado(Empleado empleado, BindingResult result) throws Exception;
-
-    List<Empleado> findEmpleadosByNombre(String nombre);
 
     List<Empleado> findEmpleadosByPuesto(String puesto);
 }

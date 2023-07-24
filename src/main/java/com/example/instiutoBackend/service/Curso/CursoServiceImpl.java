@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -26,21 +27,35 @@ public class CursoServiceImpl implements CursoService{
     private final ImagenDao imagenDao;
 
     @Override
-    public List<Curso> findCursosPaginados(Integer pageNo, Integer pageSize) {
+    public List<Curso> GetCursosPaginado(Integer pageNo, Integer pageSize, Optional<String> nombre) {
+        Page<Curso> cursos;
         Pageable pagina = PageRequest.of(pageNo, pageSize);
-        Page<Curso> cursos = cursoDao.findAllBy(pagina);
-
-        return cursos.getContent();
+        if (nombre.isPresent()) {
+            cursos = cursoDao.findCursosByNombreContainingIgnoreCase(pagina, nombre.get());
+        }
+        else {
+            cursos = cursoDao.findAllBy(pagina);
+        }
+        List<Curso> listaCursos;
+        listaCursos = cursos.getContent();
+        return listaCursos;
     }
 
     @Override
-    public Long count() {
-        return cursoDao.countCursosBy();
+    public Long countCursos(Optional<String> nombre) {
+        Long cantidad;
+        if (nombre.isPresent()) {
+            cantidad = cursoDao.countCursosByNombreContainingIgnoreCase(nombre.get());
+        }
+        else {
+            cantidad = cursoDao.countCursosBy();
+        }
+        return cantidad;
     }
 
     @Override
     public void guardarCurso(Curso curso) throws Exception {
-        if (curso.getImagen().getFoto() == null) {
+        if (curso.getImagen().getIdArchivo() == null) {
             Archivo archivo = new Archivo();
             imagenDao.save(archivo.setFotoCursoDefault());
             curso.setImagen(archivo.setFotoCursoDefault());
@@ -58,11 +73,6 @@ public class CursoServiceImpl implements CursoService{
         Curso curso = cursoDao.findCursoByIdCurso(idCurso);
         cursoDao.delete(curso);
         return new Respuesta(Estado.OK,"El curso" + curso.getNombre() + "ha sido eliminado correctamente");
-    }
-
-    @Override
-    public List<Curso> findCursoByNombre(String nombre) {
-        return cursoDao.findCursosByNombreContainingIgnoreCase(nombre);
     }
 
     public List<Curso> findCursosInscriptosByUsuario(Long idPersona) {

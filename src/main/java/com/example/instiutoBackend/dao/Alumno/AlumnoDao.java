@@ -9,11 +9,9 @@ import java.util.List;
 
 public interface AlumnoDao extends JpaRepository<Alumno, Long> {
 
-    Page<Alumno> findAll(Pageable page);
-
+    Page<Alumno> findAll(Pageable pageable);
+    Page<Alumno> findAlumnosByNombreContainingIgnoreCase(String nombre, Pageable pageable);
     Long countAlumnosBy();
-
-    List<Alumno> findAlumnosByNombreIgnoreCase(String nombre);
-
+    Long countAlumnosByNombreContainingIgnoreCase(String nombre);
     Alumno findAlumnoByIdPersona(Long idPersona);
 }

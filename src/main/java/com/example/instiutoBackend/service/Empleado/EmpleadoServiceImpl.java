@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -33,15 +34,30 @@ public class EmpleadoServiceImpl implements EmpleadoService {
     private final UsuarioLoginDao usuarioLoginDao;
 
     @Override
-    public List<Empleado> findEmpleadosPaginados(Integer pageNo, Integer pageSize) {
+    public List<Empleado> getEmpleadosPaginado(Integer pageNo, Integer pageSize, Optional<String> nombre) {
+        Page<Empleado> empleados;
         Pageable pagina = PageRequest.of(pageNo, pageSize);
-        Page<Empleado> administrativos = empleadoDao.findAll(pagina);
-        return administrativos.getContent();
+        if (nombre.isPresent()) {
+            empleados = empleadoDao.findEmpleadosByNombreContainingIgnoreCase(nombre.get(), pagina);
+        }
+        else {
+            empleados = empleadoDao.findAll(pagina);
+        }
+        List<Empleado> listaEmpleados;
+        listaEmpleados = empleados.getContent();
+        return listaEmpleados;
     }
 
     @Override
-    public Long contarEmpleados() {
-        return empleadoDao.count();
+    public Long contarEmpleados(Optional<String> nombre) {
+        Long cantidad;
+        if (nombre.isPresent()) {
+            cantidad = empleadoDao.countEmpleadosByNombre(nombre.get());
+        }
+        else {
+            cantidad = empleadoDao.countEmpleadosBy();
+        }
+        return cantidad;
     }
 
     @Override
@@ -59,7 +75,7 @@ public class EmpleadoServiceImpl implements EmpleadoService {
             usuarioLoginDao.save(nuevoUsuarioLogin);
             mailService.sendMailGeneracionClaveEmpleado(empleado,nuevoUsuarioLogin);
         }
-        if (empleado.getImagen() == null) {
+        if (empleado.getImagen().getIdArchivo() == null) {
             Archivo archivo = new Archivo();
             imagenDao.save(archivo.setFotoUsuarioDefault());
             empleado.setImagen(archivo.setFotoUsuarioDefault());
@@ -70,12 +86,6 @@ public class EmpleadoServiceImpl implements EmpleadoService {
         empleadoDao.save(empleado);
         return empleado;
     }
-
-    @Override
-    public List<Empleado> findEmpleadosByNombre(String nombre) {
-        return empleadoDao.findEmpleadoByNombreIgnoreCase(nombre);
-    }
-
     @Override
     public List<Empleado> findEmpleadosByPuesto(String puesto) {
         return empleadoDao.findEmpleadoByPuesto(puesto);

@@ -5,15 +5,13 @@ import com.example.instiutoBackend.model.EXTS.AlumnoEXTS;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 public interface AlumnoService {
 
-    List<Alumno> findAlumnosPaginados(Integer pageNo, Integer pageSize);
+    List<Alumno> getAlumnosPaginado(Integer pageNo, Integer pageSize, Optional<String> nombre);
 
-    Long contarALumnos();
+    Long contarAlumnos(Optional<String> nombre);
 
     Alumno guardarAlumno(AlumnoEXTS alumno) throws IOException;
-
-    List<Alumno> findALumnosByNombre(String nombre);
-
 }

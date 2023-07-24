@@ -11,12 +11,9 @@ import java.util.List;
 public interface EmpleadoDao extends JpaRepository<Empleado, Long> {
 
     Page<Empleado> findAll(Pageable page);
-
+    Page<Empleado> findEmpleadosByNombreContainingIgnoreCase(String nombre, Pageable pageable);
     Long countEmpleadosBy();
-
-    List<Empleado> findEmpleadoByNombreIgnoreCase(String nombre);
-
+    Long countEmpleadosByNombre(String nombre);
     List<Empleado> findEmpleadoByPuesto(String puesto);
-
     Empleado findByIdPersona(Long idPersona);
 }
