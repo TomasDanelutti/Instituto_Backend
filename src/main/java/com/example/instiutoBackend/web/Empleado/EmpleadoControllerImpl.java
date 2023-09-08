@@ -50,6 +50,6 @@ public class EmpleadoControllerImpl implements EmpleadoController {
     @GetMapping("/findByPuesto/{puesto}")
     @ResponseStatus(HttpStatus.OK)
     public List<Empleado> findEmpleadosByPuesto(@PathVariable("puesto") String puesto) {
-        return null;
+        return empleadoService.findEmpleadosByPuesto(puesto);
     }
 }
