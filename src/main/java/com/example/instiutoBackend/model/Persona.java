@@ -1,8 +1,11 @@
 package com.example.instiutoBackend.model;
 
+import javax.validation.constraints.*;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.util.*;
@@ -13,34 +16,34 @@ import java.util.concurrent.ThreadLocalRandom;
 @Inheritance(strategy = InheritanceType.JOINED)
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 public class Persona {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idPersona;
-
+    @ColumnDefault("uuid_generate_v4()")
     private UUID uuid;
-
+    @NotNull
     private Long dni;
+    @NotBlank(message = "El nombre es requerido")
     private String nombre;
+    @NotBlank(message = "El apellido es requerido")
     private String apellido;
-
+    @NotNull
     private String domicilio;
-
+    @NotNull
     private Long telefono;
 
     private String estadoCivil;
-
+    @NotNull
     private String nivelEducativo;
-
+    @NotNull
     private String genero;
-
+    @NotNull
+    @Email(message = "Formato de email incorrecto")
     private String email;
-
     private String estado;
-
     private boolean activo;
-
+    @NotNull
     private Date fechaNacimiento;
 
     @ManyToOne(cascade = CascadeType.ALL)

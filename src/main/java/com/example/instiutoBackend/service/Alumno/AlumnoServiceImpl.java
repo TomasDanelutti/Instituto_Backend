@@ -5,7 +5,6 @@ import com.example.instiutoBackend.dao.Imagen.ImagenDao;
 import com.example.instiutoBackend.dao.Rol.RolDao;
 import com.example.instiutoBackend.dao.UsuarioLogin.UsuarioLoginDao;
 import com.example.instiutoBackend.model.*;
-import com.example.instiutoBackend.model.EXTS.AlumnoEXTS;
 import com.example.instiutoBackend.service.email.MailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -60,29 +59,28 @@ public class AlumnoServiceImpl implements AlumnoService {
     }
 
     @Override
-    public Alumno guardarAlumno(AlumnoEXTS alumno) throws IOException {
-        if (alumno.getAlumno().getIdPersona() == null) {
-            alumno.getAlumno().setUuid(UUID.randomUUID());
+    public Alumno guardarAlumno(Alumno alumno) throws IOException {
+        if (alumno.getIdPersona() != null) {
+            alumno.setUuid(UUID.randomUUID());
             Rol rol = new Rol();
             rol.setIdRol(0L);
             rol.setNombre("Alumno");
-            alumno.getAlumno().setRol(rol);
-            alumno.getAlumno().setActivo(true);
+            alumno.setRol(rol);
+            alumno.setActivo(true);
             UsuarioLogin usuarioLogin = new UsuarioLogin();
-            usuarioLogin.setDni(alumno.getAlumno().getDni());
-            usuarioLogin.setClave(alumno.getClave());
+            usuarioLogin.setDni(alumno.getDni());
             usuarioLoginDao.save(usuarioLogin);
-            mailService.sendMailCrearCuentaAlumno(alumno.getAlumno());
+            mailService.sendMailCrearCuentaAlumno(alumno);
         }
-        if (alumno.getAlumno().getImagen().getIdArchivo() == null) {
+        if (alumno.getImagen().getIdArchivo() == null) {
             Archivo archivo = new Archivo();
             imagenDao.save(archivo.setFotoUsuarioDefault());
-            alumno.getAlumno().setImagen(archivo.setFotoUsuarioDefault());
+            alumno.setImagen(archivo.setFotoUsuarioDefault());
         }
         else {
-            imagenDao.save(alumno.getAlumno().getImagen());
+            imagenDao.save(alumno.getImagen());
         };
-        alumnoDao.save(alumno.getAlumno());
-        return alumno.getAlumno();
+        alumnoDao.save(alumno);
+        return alumno;
     }
 }

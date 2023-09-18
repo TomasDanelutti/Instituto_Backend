@@ -1,16 +1,17 @@
 package com.example.instiutoBackend.web.Alumno;
 
 import com.example.instiutoBackend.model.Alumno;
-import com.example.instiutoBackend.model.EXTS.AlumnoEXTS;
 import com.example.instiutoBackend.service.Alumno.AlumnoService;
 import com.example.instiutoBackend.system.ErrorHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/alumno")
@@ -39,7 +40,7 @@ public class AlumnoControllerImpl implements AlumnoController {
     @Override
     @PostMapping("guardar")
     @ResponseStatus(HttpStatus.CREATED)
-    public Alumno guardarAlumno(@RequestBody AlumnoEXTS alumno, BindingResult result) throws Exception {
+    public Alumno guardarAlumno(@RequestBody @Valid Alumno alumno, BindingResult result) throws Exception {
         if (result.hasErrors()) {
             throw new Exception(ErrorHandler.handle(result.getFieldErrors()));
         }
