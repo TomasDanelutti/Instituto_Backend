@@ -23,8 +23,12 @@ public interface CursoDao extends JpaRepository<Curso, Long> {
     @Query("from Curso c inner join Inscripcion i on i.curso.idCurso = c.idCurso AND i.activo = true where i.alumno.idPersona = :idPersona")
     List<Curso> findCursoInscriptosByPersona(Long idPersona);
 
-    @Query("from Curso c inner join Inscripcion i on i.curso.idCurso = c.idCurso AND i.activo = true where i.alumno.idPersona != :idPersona")
-    Set<Curso> findCursoNoInscriptosByPersona(Long idPersona);
+    @Query("from Curso c inner join Inscripcion i on i.curso.idCurso != c.idCurso AND i.activo = true where i.alumno.idPersona != :idPersona")
+    List<Curso> findCursoNoInscriptosByPersona(Long idPersona);
+
+    @Query("from Curso c inner join Inscripcion i on i.curso.idCurso = c.idCurso AND i.alumno.idPersona = :idPersona AND i.activo = true where i.alumno.idPersona is null")
+    List<Curso> findCursoInscriptosByPersonaa(Long idPersona);
+
 
     List<Curso> findAllByActivo(boolean activo);
 

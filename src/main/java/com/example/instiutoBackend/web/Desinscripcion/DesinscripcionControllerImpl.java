@@ -1,6 +1,5 @@
 package com.example.instiutoBackend.web.Desinscripcion;
 
-import com.example.instiutoBackend.model.DTOS.DesinscripcionDTO;
 import com.example.instiutoBackend.model.Desinscripcion;
 import com.example.instiutoBackend.model.Respuesta;
 import com.example.instiutoBackend.service.Desinscripcion.DesinscripcionService;
@@ -35,22 +34,32 @@ public class DesinscripcionControllerImpl implements DesinscripcionController {
     @Override
     @PostMapping("/getToken")
     @ResponseStatus(HttpStatus.OK)
-    public void getToken(@RequestBody DesinscripcionDTO desinscripcionDTO) throws IOException {
-        desinscripcionService.getToken(desinscripcionDTO);
+    public void getToken(
+            @RequestParam("idCurso") Long idCurso,
+            @RequestParam("idAlumno") Long idAlumno,
+            @RequestParam("motivo") String motivo) throws IOException {
+        desinscripcionService.getToken(idCurso, idAlumno, motivo);
     }
 
     @Override
     @PostMapping("/guardar")
     @ResponseStatus(HttpStatus.OK)
-    public Respuesta guardarDesinscripcion(@RequestBody DesinscripcionDTO desinscripcionDTO)  {
-        return desinscripcionService.guardarDesinscripcion(desinscripcionDTO);
+    public Respuesta guardarDesinscripcion(
+            @RequestParam("idCurso") Long idCurso,
+            @RequestParam("idAlumno") Long idAlumno,
+            @RequestParam("motivo") String motivo,
+            @RequestParam("token") String token) {
+        return desinscripcionService.guardarDesinscripcion(idCurso, idAlumno, motivo, token);
     }
 
     @Override
     @PostMapping("/cancelar")
     @ResponseStatus(HttpStatus.OK)
-    public Respuesta eliminarDesinscripcion(@RequestBody DesinscripcionDTO desinscripcionDTO) throws IOException {
-        System.out.println(desinscripcionDTO);
-        return desinscripcionService.cancelarDescripcion(desinscripcionDTO);
+    public Respuesta eliminarDesinscripcion(
+            @RequestParam("idAlumno") Long idAlumno,
+            @RequestParam("idEmpleado") Long idEmpleado,
+            @RequestParam("idCurso") Long idCurso,
+            @RequestParam("motivo") String motivo) throws IOException {
+        return desinscripcionService.cancelarDescripcion(idAlumno, idEmpleado, idCurso, motivo);
     }
 }

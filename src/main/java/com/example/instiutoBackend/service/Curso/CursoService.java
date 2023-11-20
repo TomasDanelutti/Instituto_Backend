@@ -11,13 +11,13 @@ public interface CursoService {
 
     List<Curso> GetCursosPaginado(Integer pageNo, Integer pageSize, Optional<String> nombre);
     Long countCursos(Optional<String> nombre);
-    void guardarCurso(Curso curso) throws Exception;
+    Curso guardarCurso(Curso curso) throws Exception;
 
     Respuesta eliminarCurso(Long idCurso) throws Exception;
 
     List<Curso> findCursosInscriptosByUsuario(Long idUsuario);
 
-    Set<Curso> findCursosNoInscriptosByUsuario(Long idUsuario);
+    List<Curso> findCursosNoInscriptosByUsuario(Long idUsuario);
 
     List<Curso> findAllByActivo(boolean activo);
 }

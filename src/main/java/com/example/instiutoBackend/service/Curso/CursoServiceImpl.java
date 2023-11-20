@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -54,7 +55,7 @@ public class CursoServiceImpl implements CursoService{
     }
 
     @Override
-    public void guardarCurso(Curso curso) throws Exception {
+    public Curso guardarCurso(Curso curso) throws Exception {
         if (curso.getImagen().getIdArchivo() == null) {
             Archivo archivo = new Archivo();
             imagenDao.save(archivo.setFotoCursoDefault());
@@ -66,6 +67,7 @@ public class CursoServiceImpl implements CursoService{
         curso.setActivo(true);
         imagenDao.save(curso.getPrograma());
         cursoDao.save(curso);
+        return curso;
     }
 
     @Override
@@ -79,9 +81,10 @@ public class CursoServiceImpl implements CursoService{
             return cursoDao.findCursoInscriptosByPersona(idPersona);
     }
 
-    public Set<Curso> findCursosNoInscriptosByUsuario(Long idPersona) {
-//        List<Curso> cursos = cursoDao.findCursoNoInscriptosByUsuario(idUsuario);
-//        System.out.println(cursos.size());
+    public List<Curso> findCursosNoInscriptosByUsuario(Long idPersona) {
+        List<Curso> cursos = cursoDao.findAll();
+        List<Curso> cursosInscriptos = cursoDao.findCursoInscriptosByPersona(idPersona);
+        cursos.removeAll(cursosInscriptos);
         return cursoDao.findCursoNoInscriptosByPersona(idPersona);
     }
 

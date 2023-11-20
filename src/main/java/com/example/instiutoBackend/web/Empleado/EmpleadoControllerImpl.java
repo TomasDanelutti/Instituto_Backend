@@ -6,9 +6,9 @@ import com.example.instiutoBackend.system.ErrorHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
@@ -39,7 +39,7 @@ public class EmpleadoControllerImpl implements EmpleadoController {
     @Override
     @PostMapping("guardar")
     @ResponseStatus(HttpStatus.CREATED)
-    public Empleado guardarEmpleado(@Validated @RequestBody Empleado empleado, BindingResult result) throws Exception {
+    public Empleado guardarEmpleado(@Valid @RequestBody Empleado empleado, BindingResult result) throws Exception {
         if (result.hasErrors()) {
             throw new Exception(ErrorHandler.handle(result.getFieldErrors()));
         }

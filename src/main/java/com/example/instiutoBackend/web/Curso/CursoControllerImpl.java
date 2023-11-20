@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -36,12 +37,11 @@ public class CursoControllerImpl implements CursoController{
     @Override
     @PostMapping("guardar")
     @ResponseStatus(HttpStatus.CREATED)
-    public Curso guardarCurso(@RequestBody Curso curso, BindingResult result) throws Exception {
+    public Curso guardarCurso(@RequestBody @Valid Curso curso, BindingResult result) throws Exception {
         if (result.hasErrors()) {
             throw new Exception("Datos incompletos");
         }
-        cursoService.guardarCurso(curso);
-        return null;
+        return cursoService.guardarCurso(curso);
     }
 
     @Override
@@ -53,7 +53,7 @@ public class CursoControllerImpl implements CursoController{
 
     @Override
     @GetMapping("/findNoInscriptos/{idUsuario}")
-    public Set<Curso> findCursoNoInscriptosByUsuario(@PathVariable("idUsuario") Long idUsuario) {
+    public List<Curso> findCursoNoInscriptosByUsuario(@PathVariable("idUsuario") Long idUsuario) {
         return cursoService.findCursosNoInscriptosByUsuario(idUsuario);
     }
 

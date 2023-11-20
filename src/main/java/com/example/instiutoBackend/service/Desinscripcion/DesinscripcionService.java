@@ -1,6 +1,5 @@
 package com.example.instiutoBackend.service.Desinscripcion;
 
-import com.example.instiutoBackend.model.DTOS.DesinscripcionDTO;
 import com.example.instiutoBackend.model.Desinscripcion;
 import com.example.instiutoBackend.model.Respuesta;
 
@@ -12,13 +11,13 @@ public interface DesinscripcionService {
 
     List<Desinscripcion> findSolicitudesActivas();
 
-    void getToken(DesinscripcionDTO desinscripcionDTO) throws IOException;
+    void getToken(Long idCurso, Long idALumno, String motivo) throws IOException;
 
-    Respuesta guardarDesinscripcion(DesinscripcionDTO desinscripcionDTO);
+    Respuesta guardarDesinscripcion(Long idCurso, Long idALumno, String motivo, String token);
 
     Long contarDesinscripcionesActivas();
 
-    Respuesta cancelarDescripcion(DesinscripcionDTO desinscripcionDTO) throws IOException;
+    Respuesta cancelarDescripcion(Long idAlumno, Long idEmpleado, Long idCurso, String motivo) throws IOException;
 
     Respuesta eliminarDesinscripcion(Long idNotificacionesDescripcion);
 }

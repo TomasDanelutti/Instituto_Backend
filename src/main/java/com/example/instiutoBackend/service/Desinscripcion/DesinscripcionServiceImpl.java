@@ -4,10 +4,7 @@ import com.example.instiutoBackend.dao.Alumno.AlumnoDao;
 import com.example.instiutoBackend.dao.Curso.CursoDao;
 import com.example.instiutoBackend.dao.Desinscripcion.DesinscripcionDao;
 import com.example.instiutoBackend.dao.Empleado.EmpleadoDao;
-import com.example.instiutoBackend.dao.Persona.PersonaDao;
 import com.example.instiutoBackend.model.*;
-import com.example.instiutoBackend.model.DTOS.DesinscripcionDTO;
-import com.example.instiutoBackend.service.Empleado.EmpleadoService;
 import com.example.instiutoBackend.service.email.MailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -39,20 +36,18 @@ public class DesinscripcionServiceImpl implements DesinscripcionService {
     }
 
     @Override
-    public void getToken(DesinscripcionDTO desinscripcionDTO) throws IOException {
-        Desinscripcion desinscripcionBD = desinscripcionDao.findDesinscripcionByAlumno_IdPersonaAndCurso_IdCursoAAndEstadoIsTrue(desinscripcionDTO.getIdAlumno(), desinscripcionDTO.getIdCurso());
+    public void getToken(Long idCurso, Long idAlumno, String motivo) throws IOException {
+        Desinscripcion desinscripcionBD = desinscripcionDao.findDesinscripcionByAlumno_IdPersonaAndCurso_IdCursoAAndEstadoIsTrue(idAlumno, idCurso);
         Assert.isNull(desinscripcionBD, "Ya has enviado una solicitud, por favor espera a que sea respondida");
-        Curso curso = cursoDao.findCursoByIdCurso(desinscripcionDTO.getIdCurso());
-        System.out.println(desinscripcionDTO);
-        System.out.println(curso);
+        Curso curso = cursoDao.findCursoByIdCurso(idCurso);
         Assert.notNull(curso, "Curso no encontrado.");
-        Alumno alumno = alumnoDao.findAlumnoByIdPersona(desinscripcionDTO.getIdAlumno());
+        Alumno alumno = alumnoDao.findAlumnoByIdPersona(idAlumno);
         Assert.notNull(alumno, "Alumno no encontrado.");
         Desinscripcion desinscripcion = new Desinscripcion();
         desinscripcion.setAlumno(alumno);
         desinscripcion.setCurso(curso);
         desinscripcion.setFechaCreacionDesinscripcion(new Date());
-        desinscripcion.setMotivo(desinscripcionDTO.getMotivo());
+        desinscripcion.setMotivo(motivo);
         desinscripcion.setEstado(true);
         desinscripcion.setToken(Persona.cadenaAleatoria(10));
         mailService.sendMailGeneraionTokenDesinscripcion(desinscripcion);
@@ -60,12 +55,14 @@ public class DesinscripcionServiceImpl implements DesinscripcionService {
     }
 
     @Override
-    public Respuesta guardarDesinscripcion(DesinscripcionDTO desinscripcionDTO) {
-        Desinscripcion desinscripcionBD = desinscripcionDao.findDesinscripcionByAlumno_IdPersonaAndCurso_IdCursoAAndEstadoIsTrue(desinscripcionDTO.getIdAlumno(), desinscripcionDTO.getIdCurso());
-        if (desinscripcionDTO.getToken() != null) {
-            System.out.println(desinscripcionDTO.getToken());
-            System.out.println(desinscripcionBD.getToken());
-            if (desinscripcionDTO.getToken().equals(desinscripcionBD.getToken())) {
+    public Respuesta guardarDesinscripcion(Long idCurso, Long idALumno, String motivo, String token) {
+        Desinscripcion desinscripcionBD = desinscripcionDao.findDesinscripcionByAlumno_IdPersonaAndCurso_IdCursoAAndEstadoIsTrue(idALumno, idCurso);
+        if (desinscripcionBD == null) {
+            return new Respuesta(Estado.ERROR, "No hemos encontrado la solicitud de desinscripcion. Por favor cree una nueva");
+        }
+        if (token != null) {
+            if (token.toString().equals(desinscripcionBD.getToken())) {
+                desinscripcionDao.save(desinscripcionBD);
                 return new Respuesta(Estado.OK, "Hemos recibido la solicitud de desinscripción al curso. " +
                         "Un administrativo lo vera proximamente. Recibiras un correo con la resolución. Muchas gracias");
             }
@@ -86,11 +83,11 @@ public class DesinscripcionServiceImpl implements DesinscripcionService {
     }
 
     @Override
-    public Respuesta cancelarDescripcion(DesinscripcionDTO desinscripcionDTO) throws IOException {
-        Desinscripcion desinscripcionBD = desinscripcionDao.findDesinscripcionByAlumno_IdPersonaAndCurso_IdCursoAAndEstadoIsTrue(desinscripcionDTO.getIdAlumno(), desinscripcionDTO.getIdCurso());
-        Empleado empleado = empleadoDao.findByIdPersona(desinscripcionDTO.getIdEmpleado());
+    public Respuesta cancelarDescripcion(Long idAlumno, Long idEmpleado, Long idCurso, String motivo) throws IOException {
+        Desinscripcion desinscripcionBD = desinscripcionDao.findDesinscripcionByAlumno_IdPersonaAndCurso_IdCursoAAndEstadoIsTrue(idAlumno, idCurso);
+        Empleado empleado = empleadoDao.findByIdPersona(idEmpleado);
         Assert.notNull(empleado, "Error de seguridad. Solo los empleados pueden realizar esta acción");
-        desinscripcionBD.setMotivo(desinscripcionDTO.getMotivo());
+        desinscripcionBD.setMotivo(motivo);
         desinscripcionBD.setEstado(false);
         desinscripcionBD.setEmpleado(empleado);
         desinscripcionDao.save(desinscripcionBD);

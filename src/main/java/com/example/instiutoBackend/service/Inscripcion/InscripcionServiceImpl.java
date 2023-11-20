@@ -4,7 +4,6 @@ import com.example.instiutoBackend.dao.Alumno.AlumnoDao;
 import com.example.instiutoBackend.dao.Curso.CursoDao;
 import com.example.instiutoBackend.dao.Inscripcion.InscripcionDao;
 import com.example.instiutoBackend.model.*;
-import com.example.instiutoBackend.model.DTOS.InscripcionDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,13 +24,13 @@ public class InscripcionServiceImpl implements InscripcionService {
 
 
     @Override
-    public Respuesta inscribirse(InscripcionDTO inscripcionDTO) throws Exception {
-        Persona persona = inscripcionDao.findAlumnoByCurso(inscripcionDTO.getIdCurso(), inscripcionDTO.getIdPersona());
+    public Respuesta inscribirse(Long idCurso, Long idPersona) throws Exception {
+        Persona persona = inscripcionDao.findAlumnoByCurso(idCurso, idPersona);
         Assert.isNull(persona, "No puedes inscribirte a este curso debido a que ya estas inscripto en el mismo. " +
                 "Si crees que es un error contactate con Bedelia. Gracias");
-        Curso curso = cursoDao.findCursoByIdCurso(inscripcionDTO.getIdCurso());
+        Curso curso = cursoDao.findCursoByIdCurso(idCurso);
         Assert.notNull(curso, "No hemos podido encontrar el curso.");
-        Alumno alumno = alumnoDao.findAlumnoByIdPersona(inscripcionDTO.getIdPersona());
+        Alumno alumno = alumnoDao.findAlumnoByIdPersona(idPersona);
         Assert.notNull(alumno, "No hemos podido encontrar el alumno.");
         Inscripcion inscripcion = new Inscripcion();
         inscripcion.setAlumno(alumno);
@@ -42,21 +41,13 @@ public class InscripcionServiceImpl implements InscripcionService {
     }
 
     @Override
-    public Respuesta desinscribirse(InscripcionDTO inscripcionDTO) throws Exception {
-        System.out.println(inscripcionDTO);
-        Inscripcion inscripcion = inscripcionDao.findByCurso_IdCursoAndAlumno_IdPersona(inscripcionDTO.getIdCurso(), inscripcionDTO.getIdPersona());
+    public Respuesta desinscribirse(Long idCurso, Long idPersona) throws Exception {
+        Inscripcion inscripcion = inscripcionDao.findByCurso_IdCursoAndAlumno_IdPersona(idCurso, idPersona);
         Assert.notNull(inscripcion, "No hemos podido encontrar la inscripcion correspondiente");
-        inscripcion.setMotivoDesunscripcion(inscripcionDTO.getMotivo());
+        // inscripcion.setMotivoDesunscripcion(inscripcionDTO.getMotivo());
         inscripcion.setActivo(false);
         inscripcionDao.delete(inscripcion);
         return new Respuesta(Estado.OK, "el alumno " + inscripcion.getAlumno().getNombre() +
                 " ha sido desinscripto del curso " + inscripcion.getCurso().getNombre() + " correctamente");
     }
-
-
-    @Override
-    public List<Persona> findAlumnosByCurso(Long idCurso) {
-        return inscripcionDao.findAlumnosByCurso(idCurso);
-    }
-
 }

@@ -2,7 +2,6 @@ package com.example.instiutoBackend.model;
 
 import javax.validation.constraints.*;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;

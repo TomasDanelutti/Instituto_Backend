@@ -17,7 +17,7 @@ public interface CursoController {
     Respuesta eliminarCurso(Long idCurso) throws Exception;
 
 
-    Set<Curso> findCursoNoInscriptosByUsuario(Long idUsuario);
+    List<Curso> findCursoNoInscriptosByUsuario(Long idUsuario);
 
     List<Curso> findCursoInscriptosByUsuario(Long idUsuario);
 
