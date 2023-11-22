@@ -23,5 +23,9 @@ public interface CursoController {
 
     List<Curso> findAllByActivo(boolean activo);
 
+    List<Curso> findCursosInscriptosByUsuarioAndNombre(Long idUsuario, Optional<String> nombre);
+
+    List<Curso> findCursosNoInscriptosByUsuarioAndNombre(Long idUsuario, Optional<String> nombre);
+
 
 }

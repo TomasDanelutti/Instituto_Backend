@@ -70,4 +70,19 @@ public class CursoControllerImpl implements CursoController{
     public List<Curso> findAllByActivo(@PathVariable("activo") boolean activo) {
         return cursoService.findAllByActivo(activo);
     }
+
+    @Override
+    @GetMapping
+    public List<Curso> findCursosInscriptosByUsuarioAndNombre(
+            @RequestParam("idUsuario") Long idUsuario,
+            @RequestParam("nombre") Optional<String> nombre) {
+        return cursoService.findCursosInscriptosByUsuarioAndNombre(idUsuario, nombre);
+    }
+
+    @Override
+    public List<Curso> findCursosNoInscriptosByUsuarioAndNombre(
+            @RequestParam("idUsuario") Long idUsuario,
+            @RequestParam("nombre") Optional<String> nombre) {
+        return cursoService.findCursosNoInscriptosByUsuarioAndNombre(idUsuario, nombre);
+    }
 }

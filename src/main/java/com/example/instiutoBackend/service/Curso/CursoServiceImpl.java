@@ -92,4 +92,14 @@ public class CursoServiceImpl implements CursoService{
     public List<Curso> findAllByActivo(boolean activo) {
         return cursoDao.findAllByActivo(activo);
     }
+
+    @Override
+    public List<Curso> findCursosInscriptosByUsuarioAndNombre(Long idUsuario, Optional<String> nombre) {
+        return null;
+    }
+
+    @Override
+    public List<Curso> findCursosNoInscriptosByUsuarioAndNombre(Long idUsuario, Optional<String> nombre) {
+        return null;
+    }
 }
