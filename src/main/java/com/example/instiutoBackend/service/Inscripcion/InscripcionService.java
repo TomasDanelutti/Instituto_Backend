@@ -1,8 +1,6 @@
 package com.example.instiutoBackend.service.Inscripcion;
 
-import com.example.instiutoBackend.model.*;
-
-import java.util.List;
+import com.example.instiutoBackend.model.Respuesta;
 
 public interface InscripcionService {
 

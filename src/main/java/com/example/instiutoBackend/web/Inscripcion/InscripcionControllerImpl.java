@@ -1,13 +1,10 @@
 package com.example.instiutoBackend.web.Inscripcion;
 
 import com.example.instiutoBackend.model.Respuesta;
-import com.example.instiutoBackend.model.Persona;
 import com.example.instiutoBackend.service.Inscripcion.InscripcionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 
 @RestController
