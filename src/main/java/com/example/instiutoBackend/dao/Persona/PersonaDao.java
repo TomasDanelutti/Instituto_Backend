@@ -1,7 +1,7 @@
 package com.example.instiutoBackend.dao.Persona;
 
-import com.example.instiutoBackend.model.Persona;
 import com.example.instiutoBackend.model.Rol;
+import com.example.instiutoBackend.model.Persona;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

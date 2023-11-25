@@ -2,9 +2,9 @@ package com.example.instiutoBackend.service.auth;
 
 import com.example.instiutoBackend.dao.Persona.PersonaDao;
 import com.example.instiutoBackend.model.Estado;
-import com.example.instiutoBackend.model.Persona;
 import com.example.instiutoBackend.model.Respuesta;
 import com.example.instiutoBackend.model.SolicitudGenerarClave;
+import com.example.instiutoBackend.model.Persona;
 import com.example.instiutoBackend.service.email.MailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

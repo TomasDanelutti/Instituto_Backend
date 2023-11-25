@@ -3,6 +3,7 @@ package com.example.instiutoBackend.web.Empleado;
 import com.example.instiutoBackend.model.Empleado;
 import org.springframework.validation.BindingResult;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
