@@ -1,0 +1,32 @@
+package com.example.institutoBackend.model;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
+
+@Entity
+@Table(name = "inscripciones")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class Inscripcion {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long idInscripcion;
+
+    @ManyToOne
+    @JoinColumn(name = "idUsuario")
+    private Alumno alumno;
+
+    @ManyToOne
+    @JoinColumn(name = "idCurso")
+    private Curso curso;
+
+    private String motivoDesunscripcion;
+
+    private boolean activo;
+
+}
