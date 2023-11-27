@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class CargatucvbackendAuthenticationManager implements AuthenticationManager {
+public class InstitutoBackendAuthenticationManager implements AuthenticationManager {
 
 	private final BCryptPasswordEncoder encoder;
 
@@ -32,7 +32,7 @@ public class CargatucvbackendAuthenticationManager implements AuthenticationMana
 	private final PersonaDao personaDao;
 	
 	@Autowired
-	public CargatucvbackendAuthenticationManager(BCryptPasswordEncoder encoder, String serverUrl, UsuarioLoginDao usuarioLoginDao, PersonaDao personaDao) {
+	public InstitutoBackendAuthenticationManager(BCryptPasswordEncoder encoder, String serverUrl, UsuarioLoginDao usuarioLoginDao, PersonaDao personaDao) {
 		this.encoder = encoder;
 		this.serverUrl = serverUrl;
 		this.usuarioLoginDao = usuarioLoginDao;
