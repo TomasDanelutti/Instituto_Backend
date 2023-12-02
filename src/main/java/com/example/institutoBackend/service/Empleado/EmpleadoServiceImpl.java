@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +32,8 @@ public class EmpleadoServiceImpl implements EmpleadoService {
     private final EmpleadoDao empleadoDao;
 
     private final ImagenDao imagenDao;
+
+    private final BCryptPasswordEncoder encoder;
 
     private final MailService mailService;
 
@@ -66,17 +69,18 @@ public class EmpleadoServiceImpl implements EmpleadoService {
     @Override
     public Empleado guardarEmpleado(Empleado empleado) throws IOException {
         if (empleado.getIdPersona() == null) {
-            //empleado.setUuid(UUID.randomUUID());
-            //Rol rol = new Rol();
-            //rol.setIdRol(1L);
-            //rol.setNombre("Administrativo");
-            //empleado.setRol(rol);
+            empleado.setUuid(UUID.randomUUID());
+            empleado.setRol(rolDao.findRolByIdRol(1L));
             empleado.setActivo(true);
             UsuarioLogin nuevoUsuarioLogin = new UsuarioLogin();
             nuevoUsuarioLogin.setDni(empleado.getDni());
-            nuevoUsuarioLogin.setClave(Persona.cadenaAleatoria(8));
+            nuevoUsuarioLogin.setClave(encoder.encode(Persona.cadenaAleatoria(8)));
             usuarioLoginDao.save(nuevoUsuarioLogin);
             mailService.sendMailGeneracionClaveEmpleado(empleado,nuevoUsuarioLogin);
+        }
+        else {
+            Empleado empleadoBD = empleadoDao.findByIdPersona(empleado.getIdPersona());
+            empleado.setDni(empleadoBD.getDni());
         }
         if (empleado.getImagen().getIdArchivo() == null) {
             Archivo archivo = new Archivo();
@@ -89,8 +93,9 @@ public class EmpleadoServiceImpl implements EmpleadoService {
         empleadoDao.save(empleado);
         return empleado;
     }
+
     @Override
-    public List<Empleado> findEmpleadosByPuesto(String puesto) {
-        return empleadoDao.findEmpleadoByPuesto(puesto);
+    public List<Empleado> findEmpleadosByPuestoEmpleado(Long idPuestoEmpleado) {
+        return empleadoDao.findEmpleadoByPuestoEmpleado_IdPuestoEmpleado(idPuestoEmpleado);
     }
 }

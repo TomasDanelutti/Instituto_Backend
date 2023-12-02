@@ -3,6 +3,7 @@ package com.example.institutoBackend.service.Curso;
 
 import com.example.institutoBackend.model.Curso;
 import com.example.institutoBackend.model.Respuesta;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,13 +16,7 @@ public interface CursoService {
 
     Respuesta eliminarCurso(Long idCurso) throws Exception;
 
-    List<Curso> findCursosInscriptosByUsuario(Long idUsuario);
+    List<Curso> findCursosByUsuarioAndNombre(Optional<String> nombre, boolean inscripto, Integer numPage , Integer pageSize);
 
-    List<Curso> findCursosNoInscriptosByUsuario(Long idUsuario);
-
-    List<Curso> findAllByActivo(boolean activo);
-
-    List<Curso> findCursosInscriptosByUsuarioAndNombre(Long idUsuario, Optional<String> nombre);
-
-    List<Curso> findCursosNoInscriptosByUsuarioAndNombre(Long idUsuario, Optional<String> nombre);
+    Long countCursosByUsuarioAndNombre(Optional<String> nombre, boolean inscripto);
 }

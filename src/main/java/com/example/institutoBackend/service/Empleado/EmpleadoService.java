@@ -15,5 +15,5 @@ public interface EmpleadoService {
 
     Empleado guardarEmpleado(Empleado empleado) throws IOException;
 
-    List<Empleado> findEmpleadosByPuesto(String puesto);
+    List<Empleado> findEmpleadosByPuestoEmpleado(Long idPuestoEmpleado);
 }

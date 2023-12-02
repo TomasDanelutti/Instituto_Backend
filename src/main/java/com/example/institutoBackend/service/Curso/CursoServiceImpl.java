@@ -6,10 +6,12 @@ import com.example.institutoBackend.model.Archivo;
 import com.example.institutoBackend.model.Curso;
 import com.example.institutoBackend.model.Estado;
 import com.example.institutoBackend.model.Respuesta;
+import com.example.institutoBackend.service.Persona.PersonaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +26,8 @@ public class CursoServiceImpl implements CursoService{
     private final CursoDao cursoDao;
 
     private final ImagenDao imagenDao;
+
+    private final PersonaService personaService;
 
     @Override
     public List<Curso> GetCursosPaginado(Integer pageNo, Integer pageSize, Optional<String> nombre) {
@@ -75,29 +79,50 @@ public class CursoServiceImpl implements CursoService{
         return new Respuesta(Estado.OK,"El curso" + curso.getNombre() + "ha sido eliminado correctamente");
     }
 
-    public List<Curso> findCursosInscriptosByUsuario(Long idPersona) {
-            return cursoDao.findCursoInscriptosByPersona(idPersona);
-    }
-
-    public List<Curso> findCursosNoInscriptosByUsuario(Long idPersona) {
-        List<Curso> cursos = cursoDao.findAll();
-        List<Curso> cursosInscriptos = cursoDao.findCursoInscriptosByPersona(idPersona);
-        cursos.removeAll(cursosInscriptos);
-        return cursoDao.findCursoNoInscriptosByPersona(idPersona);
+    @Override
+    public List<Curso> findCursosByUsuarioAndNombre( Optional<String> nombre, boolean inscripto, Integer numPage, Integer pageSize) {
+        Pageable paging = PageRequest.of(numPage, pageSize, Sort.by("idCurso"));
+        Page<Curso> cursos;
+        if (inscripto) {
+            if (nombre.isPresent()) {
+                cursos = cursoDao.findCursoInscriptosByPersonaAndNombre(personaService.getPersonaSession().getIdPersona(), nombre.get(), paging);
+            }
+            else {
+                cursos = cursoDao.findCursoInscriptosByPersona(personaService.getPersonaSession().getIdPersona(), paging);
+            }
+        }
+        else {
+            if (nombre.isPresent()) {
+                cursos = cursoDao.findCursoNoInscriptosByPersonaAndNombre(personaService.getPersonaSession().getIdPersona(), nombre.get(), paging);
+            }
+            else {
+                cursos = cursoDao.findCursoNoInscriptosByPersona(personaService.getPersonaSession().getIdPersona(), paging);
+            }
+        }
+        List<Curso> listaCursos;
+        listaCursos = cursos.getContent();
+        return listaCursos;
     }
 
     @Override
-    public List<Curso> findAllByActivo(boolean activo) {
-        return cursoDao.findAllByActivo(activo);
-    }
-
-    @Override
-    public List<Curso> findCursosInscriptosByUsuarioAndNombre(Long idUsuario, Optional<String> nombre) {
-        return null;
-    }
-
-    @Override
-    public List<Curso> findCursosNoInscriptosByUsuarioAndNombre(Long idUsuario, Optional<String> nombre) {
-        return null;
+    public Long countCursosByUsuarioAndNombre(Optional<String> nombre, boolean inscripto) {
+        Long cantidad;
+        if (inscripto) {
+            if (nombre.isPresent()) {
+                cantidad = cursoDao.countCursoInscriptosByPersonaAndNombre(personaService.getPersonaSession().getIdPersona(), nombre.get());
+            }
+            else {
+                cantidad = cursoDao.countCursoInscriptosByPersona(personaService.getPersonaSession().getIdPersona());
+            }
+        }
+        else {
+            if (nombre.isPresent()) {
+                cantidad = cursoDao.countCursoNoInscriptosByPersonaAndNombre(personaService.getPersonaSession().getIdPersona(), nombre.get());
+            }
+            else {
+                cantidad = cursoDao.countCursoNoInscriptosByPersona(personaService.getPersonaSession().getIdPersona());
+            }
+        }
+        return cantidad;
     }
 }

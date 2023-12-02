@@ -13,6 +13,7 @@ public interface EmpleadoDao extends JpaRepository<Empleado, Long> {
     Page<Empleado> findEmpleadosByNombreContainingIgnoreCase(String nombre, Pageable pageable);
     Long countEmpleadosBy();
     Long countEmpleadosByNombre(String nombre);
-    List<Empleado> findEmpleadoByPuesto(String puesto);
+
+    List<Empleado> findEmpleadoByPuestoEmpleado_IdPuestoEmpleado(Long idPuestoEmlleado);
     Empleado findByIdPersona(Long idPersona);
 }

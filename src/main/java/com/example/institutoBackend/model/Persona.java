@@ -8,6 +8,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
 @Entity
@@ -19,6 +20,7 @@ public class Persona {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idPersona;
+    private UUID uuid = UUID.randomUUID();
     @NotNull
     private Long dni;
     @NotBlank(message = "El nombre es requerido")

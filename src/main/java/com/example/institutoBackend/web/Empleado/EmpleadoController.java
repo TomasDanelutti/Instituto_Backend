@@ -14,5 +14,5 @@ public interface EmpleadoController {
 
     Empleado guardarEmpleado(Empleado empleado, BindingResult result) throws Exception;
 
-    List<Empleado> findEmpleadosByPuesto(String puesto);
+    List<Empleado> findEmpleadosByPuestoEmpleado(Long idPuestoEmpleado);
 }

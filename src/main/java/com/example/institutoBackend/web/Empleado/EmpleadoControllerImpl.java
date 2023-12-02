@@ -46,9 +46,9 @@ public class EmpleadoControllerImpl implements EmpleadoController {
     }
 
     @Override
-    @GetMapping("/findByPuesto/{puesto}")
-    @ResponseStatus(HttpStatus.OK)
-    public List<Empleado> findEmpleadosByPuesto(@PathVariable("puesto") String puesto) {
-        return empleadoService.findEmpleadosByPuesto(puesto);
+    @GetMapping("/findByPuesto/{idPuestoEmpleado}")
+    public List<Empleado> findEmpleadosByPuestoEmpleado(@PathVariable Long idPuestoEmpleado) {
+        return empleadoService.findEmpleadosByPuestoEmpleado(idPuestoEmpleado);
     }
+
 }

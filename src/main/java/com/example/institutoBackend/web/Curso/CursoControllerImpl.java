@@ -3,8 +3,10 @@ package com.example.institutoBackend.web.Curso;
 import com.example.institutoBackend.model.Curso;
 import com.example.institutoBackend.model.Respuesta;
 import com.example.institutoBackend.service.Curso.CursoService;
+import com.example.institutoBackend.service.Persona.PersonaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +22,7 @@ public class CursoControllerImpl implements CursoController{
     private final CursoService cursoService;
 
     @Override
+    @PreAuthorize("hasAuthority('ROLE_INSTITUCION') or hasAuthority('ROLE_EMPLEADO')")
     @GetMapping("/getCursosPaginado")
     public List<Curso> GetCursosPaginado(@RequestParam("pageNo") Integer pageNo,
                                          @RequestParam("pageSize") Integer pageSize,
@@ -29,12 +32,14 @@ public class CursoControllerImpl implements CursoController{
 
     @Override
     @GetMapping("/count")
+    @PreAuthorize("hasAuthority('ROLE_INSTITUCION') or hasAuthority('ROLE_EMPLEADO')")
     public Long countCursos(@RequestParam("nombre") Optional<String> nombre) {
         return cursoService.countCursos(nombre);
     }
 
     @Override
     @PostMapping("guardar")
+    @PreAuthorize("hasAuthority('ROLE_INSTITUCION') or hasAuthority('ROLE_EMPLEADO')")
     @ResponseStatus(HttpStatus.CREATED)
     public Curso guardarCurso(@RequestBody @Valid Curso curso, BindingResult result) throws Exception {
         if (result.hasErrors()) {
@@ -45,43 +50,29 @@ public class CursoControllerImpl implements CursoController{
 
     @Override
     @DeleteMapping("/{idCurso}")
+    @PreAuthorize("hasAuthority('ROLE_INSTITUCION') or hasAuthority('ROLE_EMPLEADO')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public Respuesta eliminarCurso(@PathVariable Long idCurso) throws Exception {
        return cursoService.eliminarCurso(idCurso);
     }
 
     @Override
-    @GetMapping("/findNoInscriptos/{idUsuario}")
-    public List<Curso> findCursoNoInscriptosByUsuario(@PathVariable("idUsuario") Long idUsuario) {
-        return cursoService.findCursosNoInscriptosByUsuario(idUsuario);
+    @PreAuthorize("hasAuthority('ROLE_INSTITUCION') or hasAuthority('ROLE_EMPLEADO') or hasAuthority('ROLE_ALUMNO')")
+    @GetMapping("/findCursosByPersonaAndNombre")
+    public List<Curso> findCursosByUsuarioAndNombre(
+            @RequestParam("nombre") Optional<String> nombre,
+            @RequestParam("inscripto") boolean inscripto,
+            @RequestParam("numPage") Integer numPage,
+            @RequestParam("pageSize") Integer pageSize) {
+        return cursoService.findCursosByUsuarioAndNombre(nombre, inscripto, numPage, pageSize);
     }
 
     @Override
-    @GetMapping("/findInscriptos/{idUsuario}")
-    @ResponseStatus(HttpStatus.OK)
-    public List<Curso> findCursoInscriptosByUsuario(@PathVariable("idUsuario") Long idUsuario) {
-        return cursoService.findCursosInscriptosByUsuario(idUsuario);
-    }
-
-    @Override
-    @GetMapping("/findAll/{activo}")
-    @ResponseStatus(HttpStatus.OK)
-    public List<Curso> findAllByActivo(@PathVariable("activo") boolean activo) {
-        return cursoService.findAllByActivo(activo);
-    }
-
-    @Override
-    @GetMapping
-    public List<Curso> findCursosInscriptosByUsuarioAndNombre(
-            @RequestParam("idUsuario") Long idUsuario,
-            @RequestParam("nombre") Optional<String> nombre) {
-        return cursoService.findCursosInscriptosByUsuarioAndNombre(idUsuario, nombre);
-    }
-
-    @Override
-    public List<Curso> findCursosNoInscriptosByUsuarioAndNombre(
-            @RequestParam("idUsuario") Long idUsuario,
-            @RequestParam("nombre") Optional<String> nombre) {
-        return cursoService.findCursosNoInscriptosByUsuarioAndNombre(idUsuario, nombre);
+    @PreAuthorize("hasAuthority('ROLE_INSTITUCION') or hasAuthority('ROLE_EMPLEADO') or hasAuthority('ROLE_ALUMNO')")
+    @GetMapping("/countCursosByPersonaAndNombre")
+    public Long countCursosByUsuarioAndNombre(
+            @RequestParam("nombre") Optional<String> nombre,
+            @RequestParam("inscripto") boolean inscripto) {
+        return cursoService.countCursosByUsuarioAndNombre(nombre, inscripto);
     }
 }

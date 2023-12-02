@@ -14,16 +14,7 @@ public interface CursoController {
 
     Respuesta eliminarCurso(Long idCurso) throws Exception;
 
+    List<Curso> findCursosByUsuarioAndNombre(Optional<String> nombre, boolean inscripto, Integer numPage , Integer pageSize);
 
-    List<Curso> findCursoNoInscriptosByUsuario(Long idUsuario);
-
-    List<Curso> findCursoInscriptosByUsuario(Long idUsuario);
-
-    List<Curso> findAllByActivo(boolean activo);
-
-    List<Curso> findCursosInscriptosByUsuarioAndNombre(Long idUsuario, Optional<String> nombre);
-
-    List<Curso> findCursosNoInscriptosByUsuarioAndNombre(Long idUsuario, Optional<String> nombre);
-
-
+    Long countCursosByUsuarioAndNombre(Optional<String> nombre, boolean inscripto);
 }

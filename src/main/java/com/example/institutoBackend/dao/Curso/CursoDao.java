@@ -14,22 +14,53 @@ public interface CursoDao extends JpaRepository<Curso, Long> {
     Page<Curso> findAllBy(Pageable pageable);
     Long countCursosByNombreContainingIgnoreCase(String nombre);
     Long countCursosBy();
-    List<Curso> findCursosByActivo(boolean activo);
 
     @Query("from Curso c where c.idCurso = :idCurso")
     Curso findCursoByIdCurso(Long idCurso);
 
+    //Cursos inscriptos por persona
     @Query("from Curso c inner join Inscripcion i on i.curso.idCurso = c.idCurso AND i.activo = true where i.alumno.idPersona = :idPersona")
-    List<Curso> findCursoInscriptosByPersona(Long idPersona);
+    Page<Curso> findCursoInscriptosByPersona(Long idPersona, Pageable pageable);
 
+    //Cantidad de cursos inscriptos por persona
+    @Query("SELECT COUNT(c) FROM Curso c INNER JOIN Inscripcion i ON i.curso.idCurso = c.idCurso " +
+            "WHERE i.alumno.idPersona = :idPersona " +
+            "AND i.activo = true")
+    Long countCursoInscriptosByPersona(Long idPersona);
+
+
+    //Cursos inscriptos por persona y nombre
+    @Query("FROM Curso c INNER JOIN Inscripcion i ON i.curso.idCurso = c.idCurso " +
+            "WHERE i.activo = true AND i.alumno.nombre LIKE %:nombre% AND i.alumno.idPersona = :idPersona")
+    Page<Curso> findCursoInscriptosByPersonaAndNombre(Long idPersona, String nombre, Pageable pageable);
+
+    //Cantidad de cursos inscriptos por persona y nombre
+    @Query(value = "SELECT COUNT(c) FROM Curso c INNER JOIN Inscripcion i ON i.curso.idCurso = c.idCurso " +
+            "WHERE i.activo = true AND i.alumno.nombre LIKE %:nombre% AND i.alumno.idPersona = :idPersona",
+            countQuery = "SELECT COUNT(c) FROM Curso c INNER JOIN Inscripcion i ON i.curso.idCurso = c.idCurso " +
+                    "WHERE i.activo = true AND i.alumno.nombre LIKE %:nombre% AND i.alumno.idPersona = :idPersona")
+    Long countCursoInscriptosByPersonaAndNombre(Long idPersona, String nombre);
+
+    //Cursos no inscriptos por persona
     @Query("from Curso c inner join Inscripcion i on i.curso.idCurso != c.idCurso AND i.activo = true where i.alumno.idPersona != :idPersona")
-    List<Curso> findCursoNoInscriptosByPersona(Long idPersona);
+    Page<Curso> findCursoNoInscriptosByPersona(Long idPersona, Pageable pageable);
 
-    @Query("from Curso c inner join Inscripcion i on i.curso.idCurso = c.idCurso AND i.alumno.idPersona = :idPersona AND i.activo = true where i.alumno.idPersona is null")
-    List<Curso> findCursoInscriptosByPersonaa(Long idPersona);
+    //Cantidad de cursos no inscriptos por persona
+    @Query(value = "SELECT COUNT(c) FROM Curso c INNER JOIN Inscripcion i ON i.curso.idCurso != c.idCurso " +
+            "WHERE i.activo = true AND i.alumno.idPersona != :idPersona",
+            countQuery = "SELECT COUNT(c) FROM Curso c INNER JOIN Inscripcion i ON i.curso.idCurso != c.idCurso " +
+                    "WHERE i.activo = true AND i.alumno.idPersona != :idPersona")
+    Long countCursoNoInscriptosByPersona(Long idPersona);
 
+    //Cursos no inscriptos por persona y nombre
+    @Query("from Curso c inner join Inscripcion i on i.curso.idCurso != c.idCurso AND i.activo = true AND i.alumno.nombre LIKE %:nombre% where i.alumno.idPersona != :idPersona")
+    Page<Curso> findCursoNoInscriptosByPersonaAndNombre(Long idPersona, String nombre, Pageable pageable);
 
-    List<Curso> findAllByActivo(boolean activo);
-
+    //Cantidad de cursos no inscriptos por persona y nombre
+    @Query(value = "SELECT COUNT(c) FROM Curso c INNER JOIN Inscripcion i ON i.curso.idCurso != c.idCurso " +
+            "WHERE i.activo = true AND i.alumno.nombre LIKE %:nombre% AND i.alumno.idPersona != :idPersona",
+            countQuery = "SELECT COUNT(c) FROM Curso c INNER JOIN Inscripcion i ON i.curso.idCurso != c.idCurso " +
+                    "WHERE i.activo = true AND i.alumno.nombre LIKE %:nombre% AND i.alumno.idPersona != :idPersona")
+    Long countCursoNoInscriptosByPersonaAndNombre(Long idPersona, String nombre);
 }
 

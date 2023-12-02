@@ -23,7 +23,7 @@ public class AuthServiceImpl implements AuthService{
 
     @Override
     public Respuesta olvideMiClave(Long dni) throws IOException {
-        Persona persona = usuarioDao.findUsuarioByDni(dni);
+        Persona persona = usuarioDao.findPersonaByDni(dni);
         Assert.notNull(persona, "El DNI ingresado no corresponde a un usuario registrado.");
         mailService.sendMailSolicitudGenerarNuevaClave(persona);
         String email = persona.getEmail();
@@ -44,7 +44,7 @@ public class AuthServiceImpl implements AuthService{
 
     @Override
     public Respuesta cambiarClave(SolicitudGenerarClave solicitudGenerarClave) {
-        Persona persona = usuarioDao.findUsuarioByDni(solicitudGenerarClave.getDni());
+        Persona persona = usuarioDao.findPersonaByDni(solicitudGenerarClave.getDni());
         Assert.notNull(persona, "Ha ocurrido un error y no hemos podido obtener el usuario");
         usuarioDao.save(persona);
         return new Respuesta(Estado.OK, "Su contraseña ha sido cambiarda correctamente");

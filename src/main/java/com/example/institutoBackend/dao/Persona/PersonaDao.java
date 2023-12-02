@@ -16,6 +16,5 @@ public interface PersonaDao extends JpaRepository<Persona, Long> {
 
     boolean existsUsuariosByDni(Long dni);
 
-    Persona findUsuarioByDni(Long dni);
 
 }

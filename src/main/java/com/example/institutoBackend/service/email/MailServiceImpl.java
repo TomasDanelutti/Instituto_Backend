@@ -42,7 +42,7 @@ public class MailServiceImpl implements MailService {
 	public void sendMailGeneracionClaveEmpleado(Empleado empleado, UsuarioLogin usuarioLogin) throws IOException {
 		var file = ResourceUtils.getFile("classpath:templates/sendMailGeneracionClaveEmpleado.html");
 		var message = new String(Files.readAllBytes(file.toPath()));
-		message = message.replace("$Nombre", empleado.findNombreApellido()).replace("$puesto", empleado.getPuesto()).replace("$NuevaClave", usuarioLogin.getClave());
+		message = message.replace("$Nombre", empleado.findNombreApellido()).replace("$puesto", empleado.getPuestoEmpleado().getNombre()).replace("$NuevaClave", usuarioLogin.getClave());
 
 		sendMail(empleado.getEmail(), "Instituto T&L S.A - Creación de cuenta", message);
 	}

@@ -4,15 +4,13 @@ import com.example.institutoBackend.dao.Alumno.AlumnoDao;
 import com.example.institutoBackend.dao.Imagen.ImagenDao;
 import com.example.institutoBackend.dao.Rol.RolDao;
 import com.example.institutoBackend.dao.UsuarioLogin.UsuarioLoginDao;
-import com.example.institutoBackend.model.Alumno;
-import com.example.institutoBackend.model.Archivo;
-import com.example.institutoBackend.model.Rol;
-import com.example.institutoBackend.model.UsuarioLogin;
+import com.example.institutoBackend.model.*;
 import com.example.institutoBackend.service.email.MailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +29,9 @@ public class AlumnoServiceImpl implements AlumnoService {
     private final RolDao rolDao;
 
     private final UsuarioLoginDao usuarioLoginDao;
+
+    private final BCryptPasswordEncoder encoder;
+
     private final ImagenDao imagenDao;
 
     private final MailService mailService;
@@ -63,17 +64,19 @@ public class AlumnoServiceImpl implements AlumnoService {
 
     @Override
     public Alumno guardarAlumno(Alumno alumno) throws IOException {
-        if (alumno.getIdPersona() != null) {
-            // alumno.setUuid(UUID.randomUUID());
-            Rol rol = new Rol();
-            rol.setIdRol(0L);
-            rol.setNombre("Alumno");
-            alumno.setRol(rol);
+        if (alumno.getIdPersona() == null) {
+            alumno.setUuid(UUID.randomUUID());
+            alumno.setRol(rolDao.findRolByIdRol(2L));
             alumno.setActivo(true);
             UsuarioLogin usuarioLogin = new UsuarioLogin();
             usuarioLogin.setDni(alumno.getDni());
+            usuarioLogin.setClave(encoder.encode(Persona.cadenaAleatoria(8)));
             usuarioLoginDao.save(usuarioLogin);
             mailService.sendMailCrearCuentaAlumno(alumno);
+        }
+        else {
+            Alumno alumnoDB = alumnoDao.findAlumnoByIdPersona(alumno.getIdPersona());
+            alumno.setDni(alumnoDB.getDni());
         }
         if (alumno.getImagen().getIdArchivo() == null) {
             Archivo archivo = new Archivo();
